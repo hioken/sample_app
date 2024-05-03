@@ -1,3 +1,6 @@
+# next
+https://railstutorial.jp/chapters/static_pages?version=7.0#sec-static_pages_conclusion
+
 # Codespaces ♥️ Railsチュートリアル
 
 本リポジトリは[Railsチュートリアル](https://railstutorial.jp/)の [GitHub Codespaces](https://github.co.jp/features/codespaces) 用テンプレートです。2022年11月に公開された[GitHub公式のRailsテンプレート](https://github.com/github/codespaces-rails)を、[Railsチュートリアル](https://railstutorial.jp)用にカスタマイズしたものです。
