@@ -1,5 +1,18 @@
-# next
-3章終了
+# 進捗
+## memo
+- 4章終了
+## next
+
+# command
+bundle exec guard
+
+
+
+
+
+
+
+
 
 # Codespaces ♥️ Railsチュートリアル
 
