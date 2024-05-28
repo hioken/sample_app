@@ -1,5 +1,5 @@
 # next
-https://railstutorial.jp/chapters/static_pages?version=7.0#sec-static_pages_conclusion
+3章終了
 
 # Codespaces ♥️ Railsチュートリアル
 
