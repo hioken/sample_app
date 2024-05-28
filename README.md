@@ -1,7 +1,8 @@
 # 進捗
 ## memo
-- 4章終了
+5.1
 ## next
+https://railstutorial.jp/chapters/filling_in_the_layout?version=7.0#sec-sass_and_the_asset_pipeline
 
 # command
 bundle exec guard
