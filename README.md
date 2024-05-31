@@ -1,6 +1,6 @@
 # 進捗
 ## memo
-5章終わり
+table plus使ってみる
 ## next
 # command
 bundle exec guard
