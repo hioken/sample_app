@@ -2,6 +2,8 @@
 ## memo
 table plus使ってみる
 ## next
+6.3
+
 # command
 bundle exec guard
 
