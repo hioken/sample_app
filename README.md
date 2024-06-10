@@ -5,6 +5,9 @@ table plus使ってみる
 ブラウザで/aboutにアクセスし、デバッグ情報が表示されていることを確認してください。このページを表示するとき、どのコントローラとアクションが使われていたでしょうか?paramsの内容から確認してみましょう。
 Railsコンソールを開き、データベースから最初のユーザー情報を取得し、変数userに格納してください。その後、puts user.attributes.to_yamlを実行すると何が表示されますか? ここで表示された結果と、yメソッドを使ったy user.attributesの実行結果を比較してみましょう。
 
+renderのサーバー設定
+カリキュラムだとDBのInternal Database URLを設定するところ、External Database URLを設定
+
 ## next
 8
 
