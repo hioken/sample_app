@@ -6,7 +6,7 @@ table plus使ってみる
 Railsコンソールを開き、データベースから最初のユーザー情報を取得し、変数userに格納してください。その後、puts user.attributes.to_yamlを実行すると何が表示されますか? ここで表示された結果と、yメソッドを使ったy user.attributesの実行結果を比較してみましょう。
 
 ## next
-7
+8
 
 # command
 bundle exec guard
