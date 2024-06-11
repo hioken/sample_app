@@ -9,7 +9,7 @@ renderのサーバー設定
 カリキュラムだとDBのInternal Database URLを設定するところ、External Database URLを設定
 
 ## next
-8
+8.2.7
 
 # command
 bundle exec guard
