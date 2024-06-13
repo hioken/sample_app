@@ -1,4 +1,7 @@
 # 進捗
+## next
+10.2 テストのエラー解決
+
 ## memo
 table plus使ってみる
 後で
@@ -7,9 +10,6 @@ Railsコンソールを開き、データベースから最初のユーザー情
 
 renderのサーバー設定
 カリキュラムだとDBのInternal Database URLを設定するところ、External Database URLを設定
-
-## next
-10
 
 # command
 bundle exec guard
