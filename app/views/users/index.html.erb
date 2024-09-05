@@ -1,5 +1,6 @@
 <% provide(:title, 'All users') %>
 <h1>All users</h1>
+<%= link_to 'delete all user before activation', destroy_not_activated_path, data: { "turbo-method": :delete } %>
 
 <%= will_paginate %>
 

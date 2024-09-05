@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+  delete '/users/destroy_not_activated', to: 'users#destroy_not_activated', as: 'destroy_not_activated'
   resources :users
   resources :account_activations, only: [:edit]
   resources :password_resets, only: %i[new create edit update]

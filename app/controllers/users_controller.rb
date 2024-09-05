@@ -47,6 +47,11 @@ class UsersController < ApplicationController
     redirect_to users_url, status: :see_other
   end
 
+  def destroy_not_activated
+    User.where(activated: false).destroy_all
+    redirect_to users_path
+  end
+
   private
 
   def user_params
