@@ -1,6 +1,6 @@
 # 進捗
 ## next
-c12.1.4
+c13.2
 
 ## memo
 table plus使ってみる
