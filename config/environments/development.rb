@@ -84,4 +84,5 @@ Rails.application.configure do
   config.hosts << pf_host
 
   config.action_cable.allowed_request_origins = ["https://#{pf_host}"]
+  config.hosts.clear
 end

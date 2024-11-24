@@ -1,10 +1,11 @@
 # 進捗
 ## next
-c13.4
+c13.4.4
 
 ## memo
 table plus使ってみる
 カリキュラムだとDBのInternal Database URLを設定するところ、External Database URLを設定
+新しい環境だとsudo付けないとどのコマンドも動かない
 
 # command
 bundle exec guard
