@@ -3,6 +3,7 @@
 c14
 
 ## memo
+↓消化した後、チャット機能作ってみる
 table plus使ってみる
 カリキュラムだとDBのInternal Database URLを設定するところ、External Database URLを設定
 新しい環境だとsudo付けないとどのコマンドも動かない
