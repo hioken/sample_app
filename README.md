@@ -3,6 +3,12 @@
 14.2.5
 
 ## memo
+followとunfollowでview分けてるの無駄がある？
+どっちにしろshowとかで条件分岐するなら統一した方が
+streamの処理の時に分けているとちょっと早いのはわかるけど、それだけのためにview増やすの？
+
+
+
 ↓消化した後、チャット機能作ってみる
 table plus使ってみる
 カリキュラムだとDBのInternal Database URLを設定するところ、External Database URLを設定
