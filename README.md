@@ -1,6 +1,6 @@
 # 進捗
 ## next
-14.2.5
+14.3
 
 ## memo
 followとunfollowでview分けてるの無駄がある？
