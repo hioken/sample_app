@@ -1,6 +1,6 @@
 # 進捗
 ## next
-14.48の後の演習
+チャット機能を作る
 
 ## memo
 followとunfollowでview分けてるの無駄がある？
