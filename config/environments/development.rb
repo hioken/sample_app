@@ -42,8 +42,9 @@ Rails.application.configure do
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
 
-  host = 'vigilant-goggles-4v9rv6gggvj2vg5-3000.app.github.dev'
-  config.action_mailer.default_url_options = { host:, protocol: 'https' }
+  # Set mailer default URL options for localhost
+  host = 'localhost:3000'
+  config.action_mailer.default_url_options = { host:, protocol: 'http' }
 
   config.action_mailer.perform_caching = false
 
@@ -65,9 +66,9 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  pf_domain = ENV['GITHUB_CODESPACES_PORT_FORWARDING_DOMAIN']
+  # Allow requests from localhost
   config.action_dispatch.default_headers = {
-    'X-Frame-Options' => "ALLOW-FROM #{pf_domain}"
+    'X-Frame-Options' => 'ALLOW-FROM http://localhost:3000'
   }
 
   # Raises error for missing translations.
@@ -77,12 +78,11 @@ Rails.application.configure do
   # config.action_view.annotate_rendered_view_with_filenames = true
 
   # Uncomment if you wish to allow Action Cable access from any origin.
-  # config.action_cable.disable_request_forgery_protection = true
+  config.action_cable.disable_request_forgery_protection = true
 
-  # Allow requests from our preview domain.
-  pf_host = "#{ENV['CODESPACE_NAME']}-3000.#{pf_domain}"
-  config.hosts << pf_host
+  # Allow localhost for Action Cable
+  config.action_cable.allowed_request_origins = ['http://localhost:3000']
 
-  config.action_cable.allowed_request_origins = ["https://#{pf_host}"]
+  # Clear host restrictions
   config.hosts.clear
 end
