@@ -23,7 +23,7 @@ gem 'will_paginate', '3.3.1'
 gem 'redis', '~> 4.0'
 
 group :development, :test do
-  gem 'debug', '1.7.1', platforms: %i[mri mingw x64_mingw]
+  gem 'debug', '~> 1.8'
 end
 
 group :development do
