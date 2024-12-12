@@ -1,10 +1,7 @@
 require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
-  # Settings specified here will take precedence over those in config/application.rb.
 
-  # In the development environment your application's code is reloaded any time
-  # it changes. This slows down response time but is perfect for development
   # since you don't have to restart the web server when you make code changes.
   config.cache_classes = false
 
@@ -66,23 +63,15 @@ Rails.application.configure do
   # Suppress logger output for asset requests.
   config.assets.quiet = true
 
-  # Allow requests from localhost
+  # iframe設定
   config.action_dispatch.default_headers = {
     'X-Frame-Options' => 'ALLOW-FROM http://localhost:3000'
   }
 
-  # Raises error for missing translations.
-  # config.i18n.raise_on_missing_translations = true
+  config.action_cable.disable_request_forgery_protection = true # CSRF保護の無効化
 
-  # Annotate rendered view with file names.
-  # config.action_view.annotate_rendered_view_with_filenames = true
-
-  # Uncomment if you wish to allow Action Cable access from any origin.
-  config.action_cable.disable_request_forgery_protection = true
-
-  # Allow localhost for Action Cable
+  # WebSocketのリクエストの許可リスト
   config.action_cable.allowed_request_origins = ['http://localhost:3000']
 
-  # Clear host restrictions
   config.hosts.clear
 end

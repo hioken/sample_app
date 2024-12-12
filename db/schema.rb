@@ -40,28 +40,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_221120) do
   end
 
   create_table "channel_users", force: :cascade do |t|
-    t.integer "channel_id_id", null: false
-    t.integer "user_id_id", null: false
+    t.integer "channel_id", null: false
+    t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["channel_id_id"], name: "index_channel_users_on_channel_id_id"
-    t.index ["user_id_id"], name: "index_channel_users_on_user_id_id"
+    t.index ["user_id"], name: "index_channel_users_on_user_id"
   end
 
   create_table "channels", force: :cascade do |t|
     t.datetime "last_message_at", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["last_message_at"], name: "index_channels_on_last_message_at"
   end
 
   create_table "messages", force: :cascade do |t|
-    t.integer "user_id_id", null: false
-    t.integer "channel_id_id", null: false
+    t.integer "channel_id", null: false
+    t.integer "user_id", null: false
     t.text "content", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["channel_id_id"], name: "index_messages_on_channel_id_id"
-    t.index ["user_id_id"], name: "index_messages_on_user_id_id"
+    t.index ["channel_id"], name: "index_messages_on_channel_id"
   end
 
   create_table "microposts", force: :cascade do |t|
@@ -100,9 +99,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_221120) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "channel_users", "channel_ids"
-  add_foreign_key "channel_users", "user_ids"
-  add_foreign_key "messages", "channel_ids"
-  add_foreign_key "messages", "user_ids"
+  add_foreign_key "channel_users", "channels"
+  add_foreign_key "channel_users", "users"
+  add_foreign_key "messages", "channels"
+  add_foreign_key "messages", "users"
   add_foreign_key "microposts", "users"
 end
