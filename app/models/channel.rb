@@ -7,15 +7,19 @@ class Channel < ApplicationRecord
   validates :last_message_at, presence: true
 
   def self.make_channel(user_ids)
-    if channel_id = Channel.create(last_message_at: Time.current).id
-      records = user_ids.map do |id|
+    if user_ids.present? && channel = Channel.create(last_message_at: Time.current)
+      channel_id = channel.id
+      channel_user_records = user_ids.map do |id|
         {
           channel_id: channel_id, user_id: id,
           created_at: Time.current, updated_at: Time.current
         }
       end
+      ChannelUser.insert_all(channel_user_records)
+      channel
     else
       # エラー処理
+      return nil
     end
   end
 end
