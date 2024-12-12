@@ -1,9 +1,27 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+one_user1:
+  channel: one
+  user: michael
 
-one:
-  channel_id: one
-  user_id: one
+one_user2:
+  channel: one
+  user: archer
 
-two:
-  channel_id: two
-  user_id: two
+two_user1:
+  channel: two
+  user: michael
+
+two_user2:
+  channel: two
+  user: archer
+
+two_user3:
+  channel: two
+  user: lana
+
+three_user4:
+  channel: three
+  user: malory
+
+three_user5:
+  channel: three
+  user: User 0

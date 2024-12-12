@@ -1,18 +1,19 @@
 class Channel < ApplicationRecord
   has_many :channel_users
-  has_many :users -> { includes(:user) }, class_name: 'channel_users'
+  has_many :users, -> { includes(:user) }, class_name: 'channel_users'
   has_many :messages
-  has_many :messages_with_users -> { includes(:user) }, class_name: 'Messages'
+  has_many :messages_with_users, -> { includes(:user) }, class_name: 'Messages'
 
   validates :last_message_at, presence: true
 
   def self.make_channel(user_ids)
-    if user_ids.present? && channel = Channel.create(last_message_at: Time.current)
+    time_now = Time.current
+    if user_ids.present? && channel = Channel.create(last_message_at: time_now)
       channel_id = channel.id
       channel_user_records = user_ids.map do |id|
         {
           channel_id: channel_id, user_id: id,
-          created_at: Time.current, updated_at: Time.current
+          created_at: time_now, updated_at: time_now
         }
       end
       ChannelUser.insert_all(channel_user_records)

@@ -1,7 +1,11 @@
-# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
 one:
-  last_message_at: 2024-12-11 22:10:33
+  id: 1
+  last_message_at: <%= Time.current %>
 
 two:
-  last_message_at: 2024-12-11 22:10:33
+  id: 2
+  last_message_at: <%= Time.current %>
+
+three:
+  id: 3
+  last_message_at: <%= Time.current %>
