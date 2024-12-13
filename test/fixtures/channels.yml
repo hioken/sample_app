@@ -1,11 +1,8 @@
 one:
-  id: 1
   last_message_at: <%= Time.current %>
 
 two:
-  id: 2
   last_message_at: <%= Time.current %>
 
 three:
-  id: 3
   last_message_at: <%= Time.current %>
