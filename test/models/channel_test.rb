@@ -1,8 +1,4 @@
-require "test_helper"
+# require "test_helper"
 
-class ChannelTest < ActiveSupport::TestCase
-  test 'should be valid' do
-    puts '&' * 100
-    p channels(:one)
-  end
-end
+# class ChannelTest < ActiveSupport::TestCase
+# end

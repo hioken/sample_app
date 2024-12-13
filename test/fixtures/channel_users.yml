@@ -1,3 +1,27 @@
-# one_user1:
-#   channel: one
-#   user: michael
+channel_user_1:
+  channel: channel_1
+  user: michael
+
+channel_user_2:
+  channel: channel_1
+  user: archer
+
+channel_user_3:
+  channel: channel_2
+  user: michael
+
+channel_user_4:
+  channel: channel_2
+  user: archer
+
+channel_user_5:
+  channel: channel_2
+  user: malory
+
+channel_user_6:
+  channel: channel_3
+  user: lana
+
+channel_user_7:
+  channel: channel_3
+  user: juna

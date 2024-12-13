@@ -1,8 +1,8 @@
-one:
-  last_message_at: <%= Time.current %>
+channel_1:
+  last_message_at: "2023-12-10 12:00:00"
 
-two:
-  last_message_at: <%= Time.current %>
+channel_2:
+  last_message_at: "2023-12-08 13:00:00"
 
-three:
-  last_message_at: <%= Time.current %>
+channel_3:
+  last_message_at: "2023-12-06 12:00:00"

@@ -8,7 +8,7 @@
 - model設定(fin)
 - テストデータ, seed(fin)
 - modelテスト(next)
-- 大まかなview
+- 大まかなview()
 - controllerテスト
   - index
     - viewに最新順にチャンネルが並ぶ

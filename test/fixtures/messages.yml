@@ -1,4 +1,41 @@
-message1:
-  channel: one
+message_1:
+  content: "User1のfirstメッセージ"
+  created_at: "2023-12-06 12:00:00"
+  updated_at: "2023-12-06 12:00:00"
   user: michael
-  content: content1
+  channel: channel_1
+
+message_2:
+  content: "User1のfirstメッセージ"
+  created_at: "2023-12-06 12:00:00"
+  updated_at: "2023-12-06 12:00:00"
+  user: michael
+  channel: channel_2
+
+message_3:
+  content: "User4のfirstメッセージ"
+  created_at: "2023-12-06 12:00:00"
+  updated_at: "2023-12-06 12:00:00"
+  user: lana
+  channel: channel_3
+
+message_4:
+  content: "User1のメッセージ"
+  created_at: "2023-12-10 12:00:00"
+  updated_at: "2023-12-10 12:00:00"
+  user: archer
+  channel: channel_1
+
+message_5:
+  content: "User2のメッセージ"
+  created_at: "2023-12-08 12:30:00"
+  updated_at: "2023-12-08 12:30:00"
+  user: archer
+  channel: channel_2
+
+message_6:
+  content: "User3のメッセージ"
+  created_at: "2023-12-08 13:00:00"
+  updated_at: "2023-12-08 13:00:00"
+  user: malory
+  channel: channel_2
