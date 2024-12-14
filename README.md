@@ -8,7 +8,7 @@
 - model設定(fin)
 - テストデータ, seed(fin)
 - modelテスト(next)
-  - gptの説明見る
+  - 一旦SQL復習後、channelのバリエーション追加
   - userのテストも追加
 - 大まかなview()
 - controllerテスト

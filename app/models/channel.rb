@@ -8,6 +8,7 @@ class Channel < ApplicationRecord
 
   def self.make_channel(user_ids)
     time_now = Time.current
+    validate_user_combination(user_ids)
     if user_ids.present? && channel = Channel.create(last_message_at: time_now)
       channel_id = channel.id
       channel_user_records = user_ids.map do |id|
@@ -22,5 +23,13 @@ class Channel < ApplicationRecord
       # エラー処理
       return nil
     end
+  end
+
+  private
+
+  def validate_user_combination(user_ids)
+    Channel.joins(:channel_users)
+           .where(:user_id: user_ids)
+           .group('channel_users.channel_id')
   end
 end
