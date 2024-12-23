@@ -15,10 +15,23 @@ class ChannelTest < ActiveSupport::TestCase
   end
 
   test 'should create channel with channel_users' do
-    ids = [:michael, :archer, :lana].map { |user| users(user).id }
-    assert Channel.new
-    
+    members = [:michael, :archer, :lana].map { |user| users(user) }
+    channel_users_count = ChannelUser.count
+    user_ids = members.map { |user| user.id }
+    channel = Channel.make_channel(user_ids)
+    assert channel.valid?
+    assert ChannelUser.count == channel_users_count + members.length
+    assert members.all? { |member| ChannelUser.find_by(channel_id: channel.id, user_id: member.id) }
+  end
 
+  test 'should be invalid with only one member' do
+    assert_not Channel.make_channel([users(:michael).id]).valid?
+  end
 
+  test 'should return existing channel' do
+    existing_channel = channels(:channel_1)
+    user_ids = existing_channel.users.map(&:id)
+    channel = Channel.make_channel(user_ids)
+    assert_equal existing_channel.id, channel.id
   end
 end

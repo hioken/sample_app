@@ -1,35 +1,44 @@
 class Channel < ApplicationRecord
-  has_many :channel_users
-  has_many :users, -> { includes(:user) }, class_name: 'channel_users'
-  has_many :messages
-  has_many :messages_with_users, -> { includes(:user) }, class_name: 'Messages'
+  has_many :channel_users, dependent: :destroy
+  has_many :users, through: :channel_users
+  has_many :messages, dependent: :destroy
 
   validates :last_message_at, presence: true
 
   def self.make_channel(user_ids)
-    time_now = Time.current
-    validate_user_combination(user_ids)
-    if user_ids.present? && channel = Channel.create(last_message_at: time_now)
-      channel_id = channel.id
-      channel_user_records = user_ids.map do |id|
-        {
-          channel_id: channel_id, user_id: id,
-          created_at: time_now, updated_at: time_now
-        }
-      end
-      ChannelUser.insert_all(channel_user_records)
-      channel
-    else
-      # エラー処理
-      return nil
-    end
+    return invalid_channel('対象のユーザーが選択されていません') if user_ids.length < 2
+
+    find_existing_channel(user_ids) || create_new_channel(user_ids, Time.current)
   end
 
   private
 
-  def validate_user_combination(user_ids)
-    Channel.joins(:channel_users)
-           .where(:user_id: user_ids)
-           .group('channel_users.channel_id')
+  def self.invalid_channel(message)
+    channel = Channel.new
+    channel.errors.add(:users, message)
+    channel
   end
+
+  def self.create_new_channel(user_ids, time_now)
+    channel = Channel.new(last_message_at: time_now)
+    return channel unless channel.save
+
+    channel_user_records = user_ids.map do |id|
+      {
+        channel_id: channel.id, user_id: id,
+        created_at: time_now, updated_at: time_now
+      }
+    end
+    ChannelUser.insert_all(channel_user_records)
+    channel
+  end
+
+  def self.find_existing_channel(user_ids)
+    return nil if user_ids.empty?
+    ChannelUser.group(:channel_id)
+      .having('COUNT(DISTINCT CASE WHEN user_id IN (?) THEN user_id END) = ?', user_ids, user_ids.length)
+      .having('COUNT(DISTINCT user_id) = ?', user_ids.length).first
+      &.channel
+  end
+
 end

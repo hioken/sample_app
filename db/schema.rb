@@ -44,6 +44,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_221120) do
     t.integer "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["channel_id", "user_id"], name: "index_channel_users_on_channel_id_and_user_id", unique: true
+    t.index ["channel_id"], name: "index_channel_users_on_channel_id"
     t.index ["user_id"], name: "index_channel_users_on_user_id"
   end
 

@@ -6,6 +6,7 @@ class MessageChannel < ApplicationCable::Channel
   end
 
   # def recieve
-  #   # Channel.make_channel if params[:frist]
+  # Channel.make_channel if params[:frist]
+  # if channel.invalid?
   # end
 end
