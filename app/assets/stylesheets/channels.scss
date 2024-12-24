@@ -1,0 +1,106 @@
+/* DM一覧ページ */
+.channel-list {
+  margin-top: 20px;
+}
+
+.channel-card {
+  display: block;
+  margin-bottom: 10px; /* 各DM間のマージン */
+  padding: 15px;
+  border-radius: 8px; /* 角丸 */
+  background-color: #f9f9f9;
+  transition: background-color 0.2s ease-in-out;
+
+  &:hover {
+    background-color: #f1f1f1;
+    text-decoration: none;
+  }
+}
+
+.channel-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.channel-message {
+  color: #6c757d; /* グレーの文字色 */
+  font-size: 1em;
+  text-decoration: none; /* リンクっぽくしない */
+}
+
+.channel-timestamp {
+  color: #aaa;
+  font-size: 0.9em;
+  text-align: right;
+}
+
+/* DM画面共通スタイル */
+.messages {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow-y: auto;
+  max-height: 500px;
+}
+
+/* メッセージ共通 */
+.message-box {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  border: 1px solid #e0e0e0;
+  word-wrap: break-word;
+  background-color: #f0f0f0; /* デフォルト背景色 */
+}
+
+/* 自分のメッセージ */
+.message-box.self {
+  background-color: #e8e8e8; /* 少し濃い背景色 */
+}
+
+/* メッセージ内容 */
+.message-content {
+  font-size: 1em;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+/* タイムスタンプ */
+.message-timestamp {
+  font-size: 0.8em;
+  color: #777;
+  text-align: right;
+}
+
+/* 送信フォーム */
+.message-form {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message-form textarea {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 1em;
+  resize: none;
+}
+
+.message-form button {
+  background-color: #444;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  font-size: 1em;
+  cursor: pointer;
+}
+
+.message-form button:hover {
+  background-color: #333;
+}

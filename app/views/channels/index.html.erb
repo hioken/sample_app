@@ -1,2 +1,29 @@
-<h1>Channels#index</h1>
-<p>Find me in app/views/channels/index.html.erb</p>
+<% provide(:title, 'DM一覧') %>
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>Direct Messages</h1>
+    </section>
+    <section class="stats">
+      <%= render 'shared/stats' %>
+    </section>
+  </aside>
+
+  <div class="col-md-8">
+    <h2>DM一覧</h2>
+    <div class="channel-list">
+      <% @channels.each do |channel| %>
+        <%= link_to channel_path(channel), class: 'channel-card' do %>
+          <div class="channel-content">
+            <div class="channel-message">
+              <%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %>
+            </div>
+            <div class="channel-timestamp">
+              <%= l(channel.last_message_at, format: :short) %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>
