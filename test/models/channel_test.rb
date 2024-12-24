@@ -34,4 +34,16 @@ class ChannelTest < ActiveSupport::TestCase
     channel = Channel.make_channel(user_ids)
     assert_equal existing_channel.id, channel.id
   end
+
+  test 'should is_member? return true' do
+    channel = channels(:channel_1)  
+    user = channel.users.first
+    assert channel.is_member?(user.id)
+  end
+
+  test 'should is_member? return false' do
+    channel = channels(:channel_1)  
+    user = channel.users.last
+    assert_not channel.is_member?(user.id + 1)
+  end
 end

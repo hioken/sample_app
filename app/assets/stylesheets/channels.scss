@@ -35,6 +35,117 @@
   text-align: right;
 }
 
+.user-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 10px;
+
+  .current-user {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: 20px;
+  }
+
+  .added-users {
+    flex: 1;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    min-height: 50px;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+
+    p {
+      font-size: 1rem;
+      margin: 2px 0;
+    }
+  }
+}
+
+.search-add-user {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+
+  .user-search-input {
+    padding: 5px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+  }
+
+  .add-user-button {
+    padding: 5px 10px;
+    font-size: 1rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #218838;
+    }
+  }
+}
+
+.create-dm {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 20px;
+
+  .create-dm-button {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}
+
+.channel-list {
+  .channel-card {
+    display: block;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+      background-color: #f8f9fa;
+    }
+
+    .channel-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .channel-message {
+        font-size: 1rem;
+        color: #6c757d;
+      }
+
+      .channel-timestamp {
+        font-size: 0.9rem;
+        color: #adb5bd;
+      }
+    }
+  }
+}
+
+
 /* DM画面共通スタイル */
 .messages {
   margin-top: 20px;

@@ -11,6 +11,27 @@
 
   <div class="col-md-8">
     <h2>DM一覧</h2>
+
+    <!-- ユーザー追加エリア -->
+    <div class="search-add-user">
+      <input type="text" placeholder="メールアドレスで検索" class="user-search-input">
+      <button class="add-user-button">追加</button>
+    </div>
+    <div class="user-controls">
+      <div class="current-user">
+        <p><%= current_user.name %></p>
+      </div>
+      <div class="added-users">
+        <!-- ここに追加されたユーザー名が表示される想定 -->
+      </div>
+    </div>
+
+    <!-- DM作成ボタン -->
+    <div class="create-dm">
+      <button class="create-dm-button">新しいDMを作成する</button>
+    </div>
+
+    <!-- チャンネル一覧 -->
     <div class="channel-list">
       <% @channels.each do |channel| %>
         <%= link_to channel_path(channel), class: 'channel-card' do %>

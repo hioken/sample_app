@@ -12,6 +12,10 @@ class Channel < ApplicationRecord
     find_existing_channel(user_ids) || create_new_channel(user_ids, Time.current)
   end
 
+  def is_member?(user_id)
+    channel_users.find_by(user_id: user_id)
+  end
+
   private
 
   def self.invalid_channel(message)

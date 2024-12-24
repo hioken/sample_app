@@ -4,7 +4,7 @@ class ChannelUserTest < ActiveSupport::TestCase
 
   def setup
     @channel_user = ChannelUser.new(channel_id: channels(:channel_1).id,
-                                    user_id: users(:michael).id)
+                                    user_id: users(:juna).id)
   end
 
   test 'should be valid' do
