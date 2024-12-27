@@ -70,8 +70,15 @@ Rails.application.configure do
 
   config.action_cable.disable_request_forgery_protection = true # CSRF保護の無効化
 
+  config.importmap.enabled = true
+
   # WebSocketのリクエストの許可リスト
   config.action_cable.allowed_request_origins = ['http://localhost:3000']
 
   config.hosts.clear
+
+  config.assets.debug = true
+  config.assets.digest = false
+  config.assets.compile = true
+
 end

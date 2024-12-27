@@ -19,6 +19,43 @@ class ChannelsController < ApplicationController
     end
   end
 
+  def add_user
+    @user = User.find_by(email: params[:email])
+    @user = User.first
+    respond_to do |format|
+      if @user && @user.activated
+        format.js
+      else
+        format.js {render :undefind }
+      end
+    end
+  end
+
+def add_user
+  @user = User.find_by(email: params[:email])
+  @user ||= User.first
+
+  respond_to do |format|
+    if @user&.activated
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.append(
+          'user-list',
+          partial: 'user',
+          locals: { user: @user }
+        )
+      end
+    else
+      format.turbo_stream do
+        render turbo_stream: turbo_stream.replace(
+          'add-user-form',
+          partial: 'form',
+          locals: { error: 'User not found or not activated.' }
+        )
+      end
+    end
+  end
+end
+
   private
 
   def authenticate_dm_member

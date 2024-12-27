@@ -13,23 +13,31 @@
     <h2>DM一覧</h2>
 
     <!-- ユーザー追加エリア -->
-    <div class="search-add-user">
-      <input type="text" placeholder="メールアドレスで検索" class="user-search-input">
-      <button class="add-user-button">追加</button>
-    </div>
-    <div class="user-controls">
-      <div class="current-user">
-        <p><%= current_user.name %></p>
+    <%= form_with url: add_user_path, method: :get, remote: true do |f| %>
+      <div class="search-add-user">
+        <%= f.text_field :email, placeholder: "メールアドレスで検索", id: "add-user-form", class: "user-search-input" %>
+        <%= f.submit '追加', class: "add-user-button" %>
       </div>
-      <div class="added-users">
-        <!-- ここに追加されたユーザー名が表示される想定 -->
+    <% end %>
+    <%= form_with url: add_user_path, method: :get do %>
+      <div class="user-controls">
+        <div class="current-user">
+          <p><%= current_user.name %></p>
+        </div>
+        <div class="added-users">
+          <!-- ここに追加されたユーザー名が表示される想定 -->
+        </div>
       </div>
-    </div>
+    <% end %>
 
     <!-- DM作成ボタン -->
-    <div class="create-dm">
-      <button class="create-dm-button">新しいDMを作成する</button>
-    </div>
+    <%= form_with url: channels_path, method: :post, local: true do |f| %>
+      <div class="d-none members">
+      </div>
+      <div class="create-dm">
+        <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>
+      </div>
+    <% end %>
 
     <!-- チャンネル一覧 -->
     <div class="channel-list">
