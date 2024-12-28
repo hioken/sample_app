@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   get '/microposts', to: 'static_pages#home'
   resources :relationships, only: %i[create destroy]
   resources :channels, only: %i[index show create]
-  get '/add_user', to: 'channels#add_user', as: :add_user
+  post '/add_user', to: 'channels#add_user', as: :add_user
 
 end
 

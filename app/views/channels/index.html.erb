@@ -1,4 +1,6 @@
 <% provide(:title, 'DM一覧') %>
+<h1><%= @channel.class %></h1>
+<h1><%= @channel %></h1>
 <div class="row">
   <aside class="col-md-4">
     <section>
@@ -13,26 +15,19 @@
     <h2>DM一覧</h2>
 
     <!-- ユーザー追加エリア -->
-    <%= form_with url: add_user_path, method: :get, remote: true do |f| %>
-      <div class="search-add-user">
-        <%= f.text_field :email, placeholder: "メールアドレスで検索", id: "add-user-form", class: "user-search-input" %>
-        <%= f.submit '追加', class: "add-user-button" %>
+    <%= render 'add_member_form' %>
+    <div class="user-controls">
+      <div class="current-user">
+        <p><%= current_user.name %></p>
       </div>
-    <% end %>
-    <%= form_with url: add_user_path, method: :get do %>
-      <div class="user-controls">
-        <div class="current-user">
-          <p><%= current_user.name %></p>
-        </div>
-        <div class="added-users">
-          <!-- ここに追加されたユーザー名が表示される想定 -->
-        </div>
+      <div id="members" class="added-users">
       </div>
-    <% end %>
+    </div>
 
     <!-- DM作成ボタン -->
-    <%= form_with url: channels_path, method: :post, local: true do |f| %>
-      <div class="d-none members">
+    <%= form_with url: channels_path, method: :post, data: { turbo: "false" } do |f| %>
+      <%= render 'shared/error_messages', object: @channel if @channel %>
+      <div id="members-params" class="d-none members">
       </div>
       <div class="create-dm">
         <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>

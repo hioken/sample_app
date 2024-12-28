@@ -10,9 +10,22 @@ class ChannelsController < ApplicationController
   end
 
   def create
-    channel = Channel.make_channel(params[:user_ids].map(&:to_i))
-    if channel.valid?
-      redirect_to channel
+    # fix_point 一時的
+    p params[:emails]
+    params[:emails] ||= []
+    params[:emails] << current_user.email
+    params[:emails] = params[:emails].uniq
+    user_ids = params[:emails].map do |e|
+      User.find_by(email: e)
+    end
+    # end
+
+    @channel = Channel.make_channel(user_ids)
+
+    if @channel.errors.blank?
+      # redirect_to channel
+      raise
+      redirect_to channels_path
     else
       @channels = current_user.channels.includes(:latest_message)
       render :index
@@ -21,40 +34,33 @@ class ChannelsController < ApplicationController
 
   def add_user
     @user = User.find_by(email: params[:email])
-    @user = User.first
+    @user = User.find_by(id: params[:email])
+
     respond_to do |format|
-      if @user && @user.activated
-        format.js
+      if @user&.activated
+        format.turbo_stream do
+          render turbo_stream: [
+            turbo_stream.append(
+              'members', partial: 'member', locals: {user: @user}
+            ),
+            turbo_stream.append(
+              'members-params', partial: 'member_hidden_field', locals: {value: @user.email}
+            ),
+            turbo_stream.replace(
+              'add-member-form', partial: 'add_member_form'
+            )
+          ]
+        end
       else
-        format.js {render :undefind }
+        format.turbo_stream do
+          # fix_point フォームの情報は残したい ぱっと思いついたvalueをdefind?で設定するのは辞めた
+          render turbo_stream: turbo_stream.replace(
+            'add-member-form', partial: 'add_member_form', locals: { undefind_flg: true }
+          )
+        end
       end
     end
   end
-
-def add_user
-  @user = User.find_by(email: params[:email])
-  @user ||= User.first
-
-  respond_to do |format|
-    if @user&.activated
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.append(
-          'user-list',
-          partial: 'user',
-          locals: { user: @user }
-        )
-      end
-    else
-      format.turbo_stream do
-        render turbo_stream: turbo_stream.replace(
-          'add-user-form',
-          partial: 'form',
-          locals: { error: 'User not found or not activated.' }
-        )
-      end
-    end
-  end
-end
 
   private
 
