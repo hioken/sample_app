@@ -2,7 +2,7 @@ class ChannelsController < ApplicationController
   before_action :authenticate_dm_member, only: :show
 
   def index
-    @channels = current_user.channels.includes(:latest_message)
+    @channels = current_user.channels.includes(:latest_message).order(last_message_at: :desc)
   end
 
   def show
@@ -16,16 +16,14 @@ class ChannelsController < ApplicationController
     params[:emails] << current_user.email
     params[:emails] = params[:emails].uniq
     user_ids = params[:emails].map do |e|
-      User.find_by(email: e)
+      User.find_by(email: e).id
     end
     # end
 
     @channel = Channel.make_channel(user_ids)
 
     if @channel.errors.blank?
-      # redirect_to channel
-      raise
-      redirect_to channels_path
+      redirect_to @channel
     else
       @channels = current_user.channels.includes(:latest_message)
       render :index
@@ -34,7 +32,7 @@ class ChannelsController < ApplicationController
 
   def add_user
     @user = User.find_by(email: params[:email])
-    @user = User.find_by(id: params[:email])
+    @user = User.find_by(id: params[:email]) #fix_point デバッグ用
 
     respond_to do |format|
       if @user&.activated

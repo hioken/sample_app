@@ -4,7 +4,7 @@ class Channel < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_one :latest_message, -> { order(created_at: :desc) }, class_name: 'Message'
 
-  validates :last_message_at, presence: true, {message: '不明なエラー(時刻エラー)'}
+  validates :last_message_at, presence: true
 
   def self.make_channel(user_ids)
     return invalid_channel('対象のユーザーが選択されていません') if user_ids.length < 2

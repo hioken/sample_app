@@ -7,6 +7,7 @@
       <% @messages.each do |message| %>
         <div class="message-box">
           <div class="message-content">
+            <p>発言者: <%= message.user.name %></p>
             <%= message.content %>
           </div>
           <div class="message-timestamp">
