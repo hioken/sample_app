@@ -4,7 +4,7 @@ class Channel < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_one :latest_message, -> { order(created_at: :desc) }, class_name: 'Message'
 
-  validates :last_message_at, presence: true
+  validates :last_message_at, presence: true, {message: '不明なエラー(時刻エラー)'}
 
   def self.make_channel(user_ids)
     return invalid_channel('対象のユーザーが選択されていません') if user_ids.length < 2
@@ -26,15 +26,24 @@ class Channel < ApplicationRecord
 
   def self.create_new_channel(user_ids, time_now)
     channel = Channel.new(last_message_at: time_now)
-    return channel unless channel.save
+    begin
+      ActiveRecord::Base.transaction do
+        raise ActiveRecord::Rollback unless channel.save
 
-    channel_user_records = user_ids.map do |id|
-      {
-        channel_id: channel.id, user_id: id,
-        created_at: time_now, updated_at: time_now
-      }
+        channel_user_records = user_ids.map do |id|
+          {
+            channel_id: channel.id, user_id: id,
+            created_at: time_now, updated_at: time_now
+          }
+        end
+        ChannelUser.insert_all(channel_user_records)
+      end
+    rescue => e
+      channel.errors.add(:channel_users, '不明なエラー(中間レコードエラー)')
+      logger.error "チャンネル作成エラー: #{e.message}"
+      logger.error e.backtrace.join("\n")
+      p e
     end
-    ChannelUser.insert_all(channel_user_records)
     channel
   end
 

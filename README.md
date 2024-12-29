@@ -9,11 +9,11 @@
 - テストデータ, seed(fin)
 - modelテスト(fin)
 - 大まかなview(fin)
-- indexのDm作成機能
-  - トランザクション(next)
+- indexのDm作成機能(next)
 
 - controller簡易テスト
   - index
+    - チャンネルが作れる
     - viewに最新順にチャンネルが並ぶ
     - チャンネルに飛べる
   - show
