@@ -16,7 +16,14 @@ class ChannelsController < ApplicationController
     params[:emails] << current_user.email
     params[:emails] = params[:emails].uniq
     user_ids = params[:emails].map do |e|
-      User.find_by(email: e).id
+      user = User.find_by(email: e)
+      unless user
+        @channels = current_user.channels.includes(:latest_message)
+        @channel = Channel.new; @channel.errors.add(:channel_users, '無効なユーザーデータが送信されました')
+        render :index
+        return
+      end
+      user.id
     end
     # end
 

@@ -16,7 +16,7 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   end
 
   test 'should have channel links' do
-    first_page_of_channels = current_user.channels.includes(:latest_message)
+    first_page_of_channels = @user.channels.includes(:latest_message)
     first_page_of_channels.each do |channel|
       assert_select 'a[href=?]', channel_path(channel)
       assert_select 'div.channel-message', text: channel.latest_message.content
@@ -31,10 +31,12 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
 
   test 'should not create a channel when no users are selected' do
     email = 'undefind_email.com'
-    post add_user_path, params: { emails: [email] }
+    post add_user_path, params: { emails: [email] }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
     assert_select 'p', text: /ユーザーが見つかりません/
 
     email_values = css_select('input[name="emails[]"]').map { |element| element['value'] }
+    p '!!!!!!!!!!'
+    p email_values
     assert_no_difference 'Channel.count', "チャンネルが作成されてはいけません" do
       post channels_path, params: { emails: email_values }
     end
@@ -42,7 +44,7 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
 
   test 'should be able to create a channel' do
     email = @non_member.email
-    post add_user_path, params: { emails: [email] }
+    post add_user_path, params: { emails: [email] }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
     assert_select 'p', text: @non_member.name
     assert_select 'p', text: @non_member.email
     assert_select 'input[type="hidden"][value=?]', @non_member.email

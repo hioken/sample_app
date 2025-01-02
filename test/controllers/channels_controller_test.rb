@@ -5,10 +5,11 @@ class ChannelsControllerTest < ActionDispatch::IntegrationTest
     @channel = channels(:channel_1)
     @user = users(:michael)
     @non_member = users(:user_1)
+    log_in_as(@user)
   end
 
   test "should get index" do
-    get channel_path
+    get channels_path
     assert_response :success
   end
 
