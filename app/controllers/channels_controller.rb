@@ -11,7 +11,6 @@ class ChannelsController < ApplicationController
 
   def create
     # fix_point 一時的
-    p params[:emails]
     params[:emails] ||= []
     params[:emails] << current_user.email
     params[:emails] = params[:emails].uniq
@@ -39,7 +38,7 @@ class ChannelsController < ApplicationController
 
   def add_user
     @user = User.find_by(email: params[:email])
-    @user = User.find_by(id: params[:email]) #fix_point デバッグ用
+    # @user = User.find_by(id: params[:email]) #fix_point デバッグ用
 
     respond_to do |format|
       if @user&.activated
