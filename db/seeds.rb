@@ -48,7 +48,7 @@ time = Time.current
     Message.create!(
       channel_id: ids[0],
       user_id: ids[1],
-      content: "User#{ids[0]}のメッセージ",
+      content: "User#{ids[1]}のメッセージ",
       created_at: delayed_timestamp,
       updated_at: delayed_timestamp
     )

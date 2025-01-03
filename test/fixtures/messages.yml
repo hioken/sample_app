@@ -13,14 +13,14 @@ message_2:
   channel: channel_2
 
 message_3:
-  content: "User4のfirstメッセージ"
+  content: "User3のfirstメッセージ"
   created_at: "2023-12-06 12:00:00"
   updated_at: "2023-12-06 12:00:00"
   user: lana
   channel: channel_3
 
 message_4:
-  content: "User1のメッセージ"
+  content: "User2のメッセージ"
   created_at: "2023-12-10 12:00:00"
   updated_at: "2023-12-10 12:00:00"
   user: archer
@@ -34,7 +34,7 @@ message_5:
   channel: channel_2
 
 message_6:
-  content: "User3のメッセージ"
+  content: "User4のメッセージ"
   created_at: "2023-12-08 13:00:00"
   updated_at: "2023-12-08 13:00:00"
   user: malory

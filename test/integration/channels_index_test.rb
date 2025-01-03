@@ -12,18 +12,13 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   end
 
   test 'should have channel links' do
-    first_page_of_channels = @user.channels.includes(:latest_message)
+    first_page_of_channels = @user.channels.includes(:latest_message) #fix_point 表示チャンネル制限
     first_page_of_channels.each do |channel|
       assert_select 'a[href=?]', channel_path(channel)
       assert_select 'div.channel-message', text: channel.latest_message.content
       assert_select 'div.channel-timestamp', text: I18n.l(channel.last_message_at, format: :short)
     end
   end
-
-  # fix_point
-  # test 'should paginate users' do
-  #   assert_select 'div.pagination'
-  # end
 
   test 'should not create a channel when no users are selected' do
     email = 'undefind_email.com'
