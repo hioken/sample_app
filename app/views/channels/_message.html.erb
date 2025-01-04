@@ -1,0 +1,9 @@
+<div class="message-box">
+  <div class="message-content">
+    <p>発言者: <%= message.user.name %></p>
+    <span><%= message.content %></span>
+  </div>
+  <div class="message-timestamp">
+    <%= l(message.updated_at, format: :short) %>
+  </div>
+</div>

@@ -3,22 +3,12 @@
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
     <h2>Direct Message</h2>
-    <div class="messages">
-      <% @messages.each do |message| %>
-        <div class="message-box">
-          <div class="message-content">
-            <p>発言者: <%= message.user.name %></p>
-            <span><%= message.content %></span>
-          </div>
-          <div class="message-timestamp">
-            <%= l(message.updated_at, format: :short) %>
-          </div>
-        </div>
-      <% end %>
+    <div id="messages" class="messages">
+      <%= render @messages %>
     </div>
     <div class="message-form">
-      <textarea placeholder="メッセージを入力してください" rows="3"></textarea>
-      <button type="button" class="btn btn-primary">送信</button>
+      <textarea id="message-input" placeholder="メッセージを入力してください" rows="3"></textarea>
+      <button type="button" id="send-button" class="btn btn-primary">送信</button>
     </div>
   </div>
 </div>
