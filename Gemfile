@@ -21,6 +21,7 @@ gem 'stimulus-rails',  '1.2.1'
 gem 'turbo-rails',     '1.4.0'
 gem 'will_paginate', '3.3.1'
 gem 'redis', '~> 4.0'
+gem 'redis-rails'
 
 group :development, :test do
   gem 'debug', '~> 1.8'
@@ -48,6 +49,7 @@ group :production do
   gem 'aws-sdk-s3', '1.114.0', require: false
   gem 'pg', '1.3.5'
 end
+
 
 # Windows ではタイムゾーン情報用の tzinfo-data gem を含める必要があります
 # gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]

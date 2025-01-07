@@ -8,10 +8,14 @@ const dmChannel = consumer.subscriptions.create(
     // },
 
     received(data) {
-      const messagesElement = document.getElementById('messages');
-      messagesElement.innerHTML += data.message_element;
-
-      messagesElement.scrollTop = messagesElement.scrollHeight;
+      if (data.error) {
+        alert(data.error);
+      } else {
+        const messagesElement = document.getElementById('messages');
+        messagesElement.innerHTML += data.message_element;
+        
+        messagesElement.scrollTop = messagesElement.scrollHeight;
+      }
     }, 
 
     sending(message) {

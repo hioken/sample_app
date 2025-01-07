@@ -15,6 +15,9 @@ WORKDIR /home/environment
 COPY entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
 
+RUN apt-get update && apt-get install -y redis-tools
+
+
 # ポートを開放
 EXPOSE 3000
 
