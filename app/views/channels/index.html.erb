@@ -13,7 +13,7 @@
     <h2>DM一覧</h2>
 
     <!-- ユーザー追加エリア -->
-    <%= render 'add_member_form' %>
+    <%= render 'add_member_form', undefind_user: nil %>
     <div class="user-controls">
       <div class="current-user">
         <p><%= current_user.name %></p>

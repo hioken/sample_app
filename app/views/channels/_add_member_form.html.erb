@@ -1,11 +1,11 @@
 <div id="add-member-form">
   <%= form_with url: add_user_path, method: :post, data: { turbo: true } do |f| %>
     <div class="search-add-user">
-      <%= f.text_field :email, placeholder: "メールアドレスで検索", class: "user-search-input" %>
+      <%= f.text_field :email, placeholder: "メールアドレスで検索", class: "user-search-input", value: undefind_user %>
       <%= f.submit '追加', class: "add-user-button" %>
     </div>
   <% end %>
-  <% if defined?(undefind_flg) %>
+  <% if undefind_user %>
     <p style="color: red">ユーザーが見つかりません</p>
   <% end %>
 </div>

@@ -1,4 +1,5 @@
 class ChannelsController < ApplicationController
+  # fix_point_1 id実装後emailの部分変更
   before_action :authenticate_dm_member, only: :show
 
   def index
@@ -11,7 +12,6 @@ class ChannelsController < ApplicationController
   end
 
   def create
-    # fix_point 一時的
     params[:emails] ||= []
     params[:emails] << current_user.email
     params[:emails] = params[:emails].uniq
@@ -25,7 +25,6 @@ class ChannelsController < ApplicationController
       end
       user.id
     end
-    # end
 
     @channel = Channel.make_channel(user_ids)
 
@@ -39,7 +38,6 @@ class ChannelsController < ApplicationController
 
   def add_user
     @user = User.find_by(email: params[:email])
-    # @user = User.find_by(id: params[:email]) #fix_point デバッグ用
 
     respond_to do |format|
       if @user&.activated
@@ -52,15 +50,14 @@ class ChannelsController < ApplicationController
               'members-params', partial: 'member_hidden_field', locals: {value: @user.email}
             ),
             turbo_stream.replace(
-              'add-member-form', partial: 'add_member_form'
+              'add-member-form', partial: 'add_member_form', locals: { undefind_user: nil }
             )
           ]
         end
       else
         format.turbo_stream do
-          # fix_point フォームの情報は残したい ぱっと思いついたvalueをdefind?で設定するのは辞めた
           render turbo_stream: turbo_stream.replace(
-            'add-member-form', partial: 'add_member_form', locals: { undefind_flg: true }
+            'add-member-form', partial: 'add_member_form', locals: { undefind_user: params[:email] }
           )
         end
       end

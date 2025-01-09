@@ -19,4 +19,8 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
       assert_select 'div.message-timestamp', text: I18n.l(message.updated_at, format: :short)
     end
   end
+
+  test 'should have cookie' do
+    assert_not cookies[:sending_user_id].blank?
+  end
 end
