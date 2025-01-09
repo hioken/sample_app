@@ -1,11 +1,15 @@
-import consumer from "channels/consumer"
+import consumer from "./consumer"
 
 const dmChannel = consumer.subscriptions.create(
-  {channel: "MessageShowChannel", channel_id: URLSearchParams(window.location.search).get('id')},
+  {channel: "MessageShowChannel", channel_id: window.location.pathname.match(/\/channels\/(\d+)/)?.[1] },
   {
     // connected() {
     //   // 既読機能
     // },
+
+    disconnected() {
+      window.location.href = "/channels"
+    },
 
     received(data) {
       if (data.error) {

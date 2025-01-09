@@ -7,6 +7,7 @@ class ChannelsController < ApplicationController
 
   def show
     @messages = @channel.messages.includes(:user)
+    cookies.encrypted[:sending_user_id] = current_user.id
   end
 
   def create
