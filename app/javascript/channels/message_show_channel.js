@@ -1,4 +1,4 @@
-import consumer from "./consumer"
+import consumer from "channels/consumer"
 
 const dmChannel = consumer.subscriptions.create(
   {channel: "MessageShowChannel", channel_id: window.location.pathname.match(/\/channels\/(\d+)/)?.[1] },

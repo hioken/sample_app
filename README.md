@@ -1,10 +1,4 @@
 # memo
-2. sample_appのstep1完成させる
-3. 以下の解消
-キャッシュ戦略の詳細
-複数コンテナ作って耐障害性のシミュレート
-redisに対してコマンドをrailsで送るには、redisに限らず外部にコマンドを送るには
-4. チャット移動
 5. step2
 6. step3
 action job単体, redis組み込み
@@ -28,11 +22,9 @@ action job単体, redis組み込み
 - 総合テスト(fin)
 
 - 最初はチャット詳細を開いた時だけwebsocketする形で実装(fin)
-- 実装で追加した要素のテスト(next)
-- fix_point修正
+- 実装で追加した要素のテスト(fin)
 ## step2
-- `javascript/channels/index.js`について学ぶ
-  - js単体読み込み
+- js単体読み込み
 - 以下の機能を本格的に(テストから)
   - user
     - 論理削除
@@ -77,5 +69,3 @@ action job単体, redis組み込み
 - DBへのアクセスを減らす
 - 通知機能(API)
 
-## 暫定ロジック
-- messagesを降順に読み込むんで、チャンネル名からDM一覧を展開
