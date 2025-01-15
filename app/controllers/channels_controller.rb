@@ -1,5 +1,4 @@
 class ChannelsController < ApplicationController
-  # fix_point_1 id実装後emailの部分変更
   before_action :authenticate_dm_member, only: :show
 
   def index
@@ -12,21 +11,21 @@ class ChannelsController < ApplicationController
   end
 
   def create
-    params[:emails] ||= []
-    params[:emails] << current_user.email
-    params[:emails] = params[:emails].uniq
-    user_ids = params[:emails].map do |e|
-      user = User.find_by(email: e)
+    # fix_point_2
+    params[:user_ids] ||= []
+    params[:user_ids] << current_user.id
+    params[:user_ids] = params[:user_ids].uniq
+    params[:user_ids].each do |id|
+      user = User.find_by(id: id)
       unless user
         @channels = current_user.channels.includes(:latest_message)
         @channel = Channel.new; @channel.errors.add(:channel_users, '無効なユーザーデータが送信されました')
         render :index
         return
       end
-      user.id
     end
 
-    @channel = Channel.make_channel(user_ids)
+    @channel = Channel.make_channel(params[:user_ids])
 
     if @channel.errors.blank?
       redirect_to @channel
@@ -37,7 +36,9 @@ class ChannelsController < ApplicationController
   end
 
   def add_user
-    @user = User.find_by(email: params[:email])
+    #fix_point_2
+    search_id = params[:unique_id].sub(/^@/, '')
+    @user = User.find_by(unique_id: search_id) 
 
     respond_to do |format|
       if @user&.activated
@@ -47,7 +48,7 @@ class ChannelsController < ApplicationController
               'members', partial: 'member', locals: {user: @user}
             ),
             turbo_stream.append(
-              'members-params', partial: 'member_hidden_field', locals: {value: @user.email}
+              'members-params', partial: 'member_hidden_field', locals: {value: @user.id}
             ),
             turbo_stream.replace(
               'add-member-form', partial: 'add_member_form', locals: { undefind_user: nil }
@@ -57,7 +58,7 @@ class ChannelsController < ApplicationController
       else
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
-            'add-member-form', partial: 'add_member_form', locals: { undefind_user: params[:email] }
+            'add-member-form', partial: 'add_member_form', locals: { undefind_user: params[:unique_id] }
           )
         end
       end

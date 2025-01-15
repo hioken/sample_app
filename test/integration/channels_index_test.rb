@@ -12,7 +12,7 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   end
 
   test 'should have channel links' do
-    first_page_of_channels = @user.channels.includes(:latest_message) #fix_point 表示チャンネル制限
+    first_page_of_channels = @user.channels.includes(:latest_message) #fix_point_3 表示チャンネル制限
     first_page_of_channels.each do |channel|
       assert_select 'a[href=?]', channel_path(channel)
       assert_select 'div.channel-message', text: channel.latest_message.content
@@ -21,26 +21,25 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   end
 
   test 'should not create a channel when no users are selected' do
-    email = 'undefind_email.com'
-    post add_user_path, params: { email: email }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+    unique_id = 'undefind_id'
+    post add_user_path, params: { unique_id: unique_id }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
     assert_select 'p', text: /ユーザーが見つかりません/
 
-    email_values = css_select('input[name="emails[]"]').map { |element| element['value'] }
+    user_ids = css_select('input[name="user_ids[]"]').map { |element| element['value'] }
     assert_no_difference 'Channel.count', "チャンネルが作成されてはいけません" do
-      post channels_path, params: { emails: email_values }
+      post channels_path, params: { user_ids: user_ids }
     end
   end
 
   test 'should be able to create a channel' do
-    email = @non_member.email
-    post add_user_path, params: { email: email }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
+    unique_id = @non_member.unique_id
+    post add_user_path, params: { unique_id: unique_id }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
     assert_select 'p', text: @non_member.name
-    assert_select 'p', text: "( #{@non_member.email} )"
-    assert_select 'input[type="hidden"][value=?]', @non_member.email
+    assert_select 'input[type="hidden"][value=?]', @non_member.id
 
-    email_values = css_select('input[name="emails[]"]').map { |element| element['value'] }
+    user_ids = css_select('input[name="user_ids[]"]').map { |element| element['value'] }
     assert_difference 'Channel.count', 1, "チャンネルが1つ作成されるべきです" do
-      post channels_path, params: { emails: email_values }
+      post channels_path, params: { user_ids: user_ids }
     end
   end
 end
