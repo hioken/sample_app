@@ -18,6 +18,7 @@ class User < ApplicationRecord
   before_save :downcase_email
   before_create :create_activation_digest
   validates :name,  presence: true, length: { maximum: 50 }
+  validates :unique_id,  presence: true, length: { maximum: 5 }, uniqueness: true
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i
   validates :email, presence: true, length: { maximum: 255 },
                     format: { with: VALID_EMAIL_REGEX },
@@ -38,6 +39,10 @@ class User < ApplicationRecord
   # ランダムなトークンを返す
   def self.new_token
     SecureRandom.urlsafe_base64
+  end
+
+  def name
+    is_deleted ? "※削除済みのUser @#{unique_id}" : "#{read_attribute(:name)} @#{unique_id}"
   end
 
   # 永続的セッションのためにユーザーをデータベースに記憶する
@@ -111,6 +116,26 @@ class User < ApplicationRecord
   # 現在のユーザーが他のユーザーをフォローしていればtrueを返す
   def following?(other_user)
     following.include?(other_user)
+  end
+
+  def unsubscribe
+    ActiveRecord::Base.transaction do
+      begin
+        microposts.destroy_all
+        raise ActiveRecord::Rollback unless update(is_deleted: true)
+      rescue ActiveRecord::StatementInvalid => e
+        logger.error "退会時投稿削除エラー: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        p e
+        return false
+      rescue => e
+        logger.error "is_deleted更新失敗: #{e.message}"
+        logger.error e.backtrace.join("\n")
+        p e
+        return false
+      end
+    end
+    true
   end
 
   private

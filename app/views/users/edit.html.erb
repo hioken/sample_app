@@ -27,3 +27,7 @@
     </div>
   </div>
 </div>
+
+<div>
+  <%= link_to "Unsubscribe", unsubscribe_path, class: "btn btn-danger", data: { "turbo-method": :patch, confirm: "Are you sure you want to unsubscribe?" } %>
+</div>

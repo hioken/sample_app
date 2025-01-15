@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
 
   def index
-    @users = User.where(activated: true).paginate(page: params[:page])
+    @users = User.where(activated: true, is_deleted: false).paginate(page: params[:page])
   end
 
   def show
@@ -39,6 +39,17 @@ class UsersController < ApplicationController
       redirect_to @user
     else
       render 'edit', status: :unprocessable_entity
+    end
+  end
+
+  def unsubscribe
+    if current_user.unsubscribe
+      flash[:success] = 'unsubscribed'
+      reset_session
+      redirect_to about_path
+    else
+      flash[:danger] = 'failed'
+      redirect_to home_path
     end
   end
 
