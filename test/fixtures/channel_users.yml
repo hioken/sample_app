@@ -25,3 +25,8 @@ channel_user_6:
 channel_user_7:
   channel: channel_3
   user: juna
+
+channel_user_8:
+  channel: channel_3
+  user: malory
+  is_left: true

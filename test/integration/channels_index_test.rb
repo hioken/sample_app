@@ -12,7 +12,7 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   end
 
   test 'should have channel links' do
-    first_page_of_channels = @user.channels.includes(:latest_message) #fix_point_3 表示チャンネル制限
+    first_page_of_channels = @user.active_channels.includes(:latest_message) #fix_point_3 表示チャンネル制限
     first_page_of_channels.each do |channel|
       assert_select 'a[href=?]', channel_path(channel)
       assert_select 'div.channel-message', text: channel.latest_message.content

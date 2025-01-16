@@ -23,4 +23,11 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   test 'should have cookie' do
     assert_not cookies[:sending_user_id].blank?
   end
+
+  test 'should leave' do
+    patch leave_path(@channel)
+    assert_redirected_to channels_url
+    assert cookies[:sending_user_id].blank?
+    assert_equal 1, @user.channels.count - @user.active_channels.count
+  end
 end

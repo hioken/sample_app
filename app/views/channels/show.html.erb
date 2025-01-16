@@ -13,5 +13,8 @@
       <textarea id="message-input" placeholder="メッセージを入力してください" rows="3"></textarea>
       <button type="button" id="send-button" class="btn btn-primary">送信</button>
     </div>
+    <div class="unsubscribe-btn">
+      <%= button_to "退出", leave_path(params[:id]), class: "btn btn-danger", method: :patch, data: { turbo: false } %>
+    </div>
   </div>
 </div>

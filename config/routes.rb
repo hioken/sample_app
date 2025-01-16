@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   resources :relationships, only: %i[create destroy]
   resources :channels, only: %i[index show create]
   post '/add_user', to: 'channels#add_user', as: :add_user
+  patch '/leave/:id', to: 'channels#leave', as: :leave
 
 end
 

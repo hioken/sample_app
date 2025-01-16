@@ -49,10 +49,11 @@ class Channel < ApplicationRecord
 
   def self.find_existing_channel(user_ids)
     return nil if user_ids.empty?
-    ChannelUser.group(:channel_id)
+    channel = ChannelUser.group(:channel_id)
       .having('COUNT(DISTINCT CASE WHEN user_id IN (?) THEN user_id END) = ?', user_ids, user_ids.length)
       .having('COUNT(DISTINCT user_id) = ?', user_ids.length).first
       &.channel
+    channel.channel_users.where(user_id: user_ids[0]).update(is_left: false) if channel
+    channel
   end
-
 end

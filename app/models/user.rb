@@ -12,8 +12,8 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :messages, dependent: :destroy
   has_many :channel_users, dependent: :destroy
-  # 通知機能の際に改良
   has_many :channels, through: :channel_users
+  has_many :active_channels, -> { where(channel_users: { is_left: false }) }, through: :channel_users, source: :channel
 
   before_save :downcase_email
   before_create :create_activation_digest

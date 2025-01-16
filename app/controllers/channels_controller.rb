@@ -2,7 +2,7 @@ class ChannelsController < ApplicationController
   before_action :authenticate_dm_member, only: :show
 
   def index
-    @channels = current_user.channels.includes(:latest_message).order(last_message_at: :desc)
+    @channels = current_user.active_channels.includes(:latest_message).order(last_message_at: :desc)
   end
 
   def show
@@ -13,24 +13,23 @@ class ChannelsController < ApplicationController
   def create
     # fix_point_2
     params[:user_ids] ||= []
-    params[:user_ids] << current_user.id
-    params[:user_ids] = params[:user_ids].uniq
-    params[:user_ids].each do |id|
+    user_ids = params[:user_ids].unshift(current_user.id).uniq
+    user_ids.each do |id|
       user = User.find_by(id: id)
       unless user
-        @channels = current_user.channels.includes(:latest_message)
+        @channels = current_user.active_channels.includes(:latest_message)
         @channel = Channel.new; @channel.errors.add(:channel_users, '無効なユーザーデータが送信されました')
         render :index
         return
       end
     end
 
-    @channel = Channel.make_channel(params[:user_ids])
+    @channel = Channel.make_channel(user_ids)
 
     if @channel.errors.blank?
       redirect_to @channel
     else
-      @channels = current_user.channels.includes(:latest_message)
+      @channels = current_user.active_channels.includes(:latest_message)
       render :index
     end
   end
@@ -63,6 +62,14 @@ class ChannelsController < ApplicationController
         end
       end
     end
+  end
+
+  def leave
+    channel_user = current_user.channel_users.find_by(channel_id: params[:id])
+    channel_user.update(is_left: true)
+    cookies.delete(:sending_user_id)
+    flash[:success] = ''
+    redirect_to channels_path
   end
 
   private
