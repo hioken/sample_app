@@ -1,7 +1,7 @@
 
 require 'test_helper'
 
-class ChannelsIndex < ActionDispatch::IntegrationTest
+class ChannelShowTest < ActionDispatch::IntegrationTest
   def setup
     @channel = channels(:channel_1)
     @user = users(:michael)
@@ -14,7 +14,7 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   test 'should have messages' do
     messages = @channel.messages
     messages.each do |message|
-      assert_select 'p', text: "発言者: #{message.user.name}"
+      assert_select 'p', text: "発言者: #{message.user.name_with_id}"
       assert_select 'span', text: message.content
       assert_select 'div.message-timestamp', text: I18n.l(message.updated_at, format: :short)
     end

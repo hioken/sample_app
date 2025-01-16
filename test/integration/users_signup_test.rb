@@ -13,6 +13,7 @@ class UsersSignupTest < UsersSignup
     assert_no_difference 'User.count' do
       post users_path, params: { user: { name:  "",
                                          email: "user@invalid",
+                                         unique_id: "id100",
                                          password:              "foo",
                                          password_confirmation: "bar" } }
     end
@@ -26,6 +27,7 @@ class UsersSignupTest < UsersSignup
     assert_difference 'User.count', 1 do
       post users_path, params: { user: { name:  "Example User",
                                          email: "user@example.com",
+                                         unique_id: "id100",
                                          password:              "password",
                                          password_confirmation: "password" } }
     end
@@ -39,6 +41,7 @@ class AccountActivationTest < UsersSignup
     super
     post users_path, params: { user: { name:  "Example User",
                                        email: "user@example.com",
+                                       unique_id: "id100",
                                        password:              "password",
                                        password_confirmation: "password" } }
     @user = assigns(:user)

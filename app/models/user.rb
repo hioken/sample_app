@@ -41,8 +41,8 @@ class User < ApplicationRecord
     SecureRandom.urlsafe_base64
   end
 
-  def name
-    is_deleted ? "※削除済みのUser @#{unique_id}" : "#{read_attribute(:name)} @#{unique_id}"
+  def name_with_id
+    is_deleted ? "※削除済みのUser @#{unique_id}" : "#{name} @#{unique_id}"
   end
 
   # 永続的セッションのためにユーザーをデータベースに記憶する

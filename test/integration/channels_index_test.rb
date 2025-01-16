@@ -34,7 +34,7 @@ class ChannelsIndex < ActionDispatch::IntegrationTest
   test 'should be able to create a channel' do
     unique_id = @non_member.unique_id
     post add_user_path, params: { unique_id: unique_id }, headers: { 'Accept' => 'text/vnd.turbo-stream.html' }
-    assert_select 'p', text: @non_member.name
+    assert_select 'p', text: @non_member.name_with_id
     assert_select 'input[type="hidden"][value=?]', @non_member.id
 
     user_ids = css_select('input[name="user_ids[]"]').map { |element| element['value'] }
