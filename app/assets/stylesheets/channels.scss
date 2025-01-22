@@ -157,6 +157,7 @@
   max-height: 500px;
 }
 
+
 /* メッセージ共通 */
 .message-box {
   border-radius: 10px;
@@ -165,11 +166,22 @@
   border: 1px solid #e0e0e0;
   word-wrap: break-word;
   background-color: #f0f0f0; /* デフォルト背景色 */
+  max-width: 80%; /* 横幅を80%に制限 */
 }
 
-/* 自分のメッセージ */
+/* 自分の発言用の右よせスタイル */
 .message-box.self {
   background-color: #e8e8e8; /* 少し濃い背景色 */
+  margin-left: auto; /* 自動で右よせ */
+}
+
+/* 既読数用のスタイル */
+.read-count {
+  font-size: 0.8em;
+  color: #777;
+  display: block;
+  margin-bottom: 5px; /* メッセージ本文との隙間を確保 */
+  text-align: left; /* 左寄せ */
 }
 
 /* メッセージ内容 */

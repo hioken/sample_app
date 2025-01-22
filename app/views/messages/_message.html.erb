@@ -1,8 +1,13 @@
-<div class="message-box">
+<div class="message-box <%= 'self' if message.user_id == current_user.id %>">
+  <% if message.user_id == current_user.id %>
+    <span class="read-count" data-message-id="<%= message.id %>"></span>
+  <% end %>
+
   <div class="message-content">
-    <p>発言者: <%= message.user.name_with_id %></p>
+    <p class="sended_user">発言者: <%= message.user.name_with_id %></p>
     <span><%= message.content %></span>
   </div>
+
   <div class="message-timestamp">
     <%= l(message.updated_at, format: :short) %>
   </div>

@@ -42,6 +42,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_11_221120) do
   create_table "channel_users", force: :cascade do |t|
     t.integer "channel_id", null: false
     t.integer "user_id", null: false
+    t.integer "last_read_message_id", default: 1, null: false
     t.boolean "is_left", default: false, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

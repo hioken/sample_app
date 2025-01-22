@@ -1,8 +1,7 @@
-version: '3.9'
-
 services:
   app:
     build: .
+    container_name: rails-app
     volumes:
       - .:/home/environment
     ports:
@@ -17,6 +16,7 @@ services:
       - redis
 
   redis:
+    container_name: redis-master
     image: redis:latest
     ports:
       - "6379:6379"
