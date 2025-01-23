@@ -14,20 +14,20 @@ class MessageShowChannel < ApplicationCable::Channel
       $redis.hset(last_read_message_ids_key(params[:channel_id]), last_read_message_ids)
     end
     stream_from "channel_#{params[:channel_id]}"
-    transmit({event: EVENT[:connected], params: {current_user_id: connection.current_user_id, last_read_message_ids: last_read_message_ids}})
-    ActionCable.server.broadcast("channel_#{params[:channel_id]}", {event: EVENT[:joined], params: {user_id: connection.current_user_id}})
+    transmit({event: EVENT[:connected], params: {current_user_id: connection.current_user.id, last_read_message_ids: last_read_message_ids}})
+    ActionCable.server.broadcast("channel_#{params[:channel_id]}", {event: EVENT[:joined], params: {user_id: connection.current_user.id}})
   end
 
   def unsubscribed
-    ActionCable.server.broadcast({event: EVENT[:leaved], params: {user_id: connection.current_user_id}})
+    ActionCable.server.broadcast({event: EVENT[:leaved], params: {user_id: connection.current_user.id}})
     last_message_id = $redis.get(last_message_id_key(params[:id]))
-    if ChannelUser.find_by(user_id: connection.current_user_id, channel_id: params[:channel_id]).update(last_message_id)
-      $redis.hset(last_read_message_ids(params[:id]), connection.current_user_id, last_message_id)
+    if ChannelUser.find_by(user_id: connection.current_user.id, channel_id: params[:channel_id]).update(last_message_id)
+      $redis.hset(last_read_message_ids(params[:id]), connection.current_user.id, last_message_id)
     end
   end
 
   def receive(data)
-    message = Message.new(content: data["message"], user_id: connection.current_user_id, channel_id: params[:channel_id])
+    message = Message.new(content: data["message"], user_id: connection.current_user.id, channel_id: params[:channel_id])
     if message.save
       ActionCable.server.broadcast(
         "channel_#{params[:channel_id]}",
@@ -35,7 +35,7 @@ class MessageShowChannel < ApplicationCable::Channel
           event: EVENT[:message], params: {
           message_element: ApplicationController.renderer.render(
             partial: 'messages/message',
-            locals: { message: message }
+            locals: { message: message, current_user: connection.current_user }
           )}
         }
       )

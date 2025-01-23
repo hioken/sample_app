@@ -41,12 +41,6 @@ action job単体, redis組み込み
     2. channelとjsのsubscribe, unsubscribeの記述、データの受け渡しとredisまで
     3. 既読数のviewと計算ロジック、ついでに右よせも済ます(next)
     4. ２人部屋の既読
-    - channel.channel_usersの{user_id: last_read_message_id, ...}をハッシュで取得して、メッセージのid以上or0なら既読+1
-      - 上記の情報はredisに保持しておく
-    - ２人なら既読欄の数を消す
-    - チャット欄に入った時にlast_read_message_idを0に、さらに{join: current_user_id, read_message_ids}をブロードキャスト
-      - 更にそのcurrent_userのid以降のメッセージの既読数を再計算
-    - 出た時にlast_read_message_idを更新、更に{leave: current_user_id}ブロードキャスト
   - 未読があるチャット欄に目印
     - そのチャンネル+自身のchannel_usersのlast_read_message_idより大きいidのメッセージがあったら
   - 自分がスクロールしている時は勝手にスクロールしない

@@ -40,17 +40,11 @@ const dmChannel = consumer.subscriptions.create(
 
       const lastReadMessageIdsArray = Object.values(this.lastReadMessageIds).sort((a, b) => a - b);
       document.querySelectorAll('.read-count').forEach((readCountElement) => {
-        let low = 0, high = lastReadMessageIdsArray.length;
-        while (low < high) {
-          const mid = Math.floor((low + high) / 2);
-          if (lastReadMessageIdsArray[mid] < readCountElement.dataset.messageId) {
-            low = mid + 1;
-          } else {
-            high = mid;
-          }
+        const readCount = binarySearch(readCountElement.dataset.messageId, lastReadMessageIdsArray) + this.activeUsersCount;
+        if (readCount > 0) {
+          readCountElement.textContent = `既読 ${readCount}`;
+          readCountElement.dataset.readCount = readCount;
         }
-        low += activeUsersCount
-        if (low > 0) { readCountElement.textContent = `既読 ${low}` }
       });
     },
 
@@ -58,23 +52,31 @@ const dmChannel = consumer.subscriptions.create(
       console.log(data)
       if (data.user_id != this.currentUserId) {
         const tmpLRMI = this.lastReadMessageIds[data.user_id]
-        this.lastReadMessageIds[data.user_id] = 0;
+        this.lastReadMessageIds[data.user_id] = 0; // fix_point_4 いる？
+        this.activeUsersCount += 1;
         
-        // 既読数計算処理
-        // document.querySelectorAll('.read-count')のdataset.messageIdが、tmpLRMIより低いデータのtextContentを見て、既読の文字な無ければ既読、あれば既読 \dの\dを+1する
+        document.querySelectorAll('.read-count').forEach((readCountElement) => {
+          if (parseInt(readCountElement.dataset.messageId) >= tmpLRMI) {
+            readCountElement.dataset.readCount += 1;
+            readCountElement.textContent = `既読 ${readCountElement.dataset.readCount}`;
+          }
+        })
       }
     },
 
     handleLeaved(data) {
-      this.lastReadMessageIds[data.user_id] = data.last_read_message_id;
+      this.lastReadMessageIds[data.user_id] = data.last_read_message_id; // fix_point_4 ここもいる？
+      this.activeUsersCount -= 1;
     },
 
     handleMessage(data) {
       const messagesElement = document.getElementById('messages');
       messagesElement.innerHTML += data.message_element;
 
-      if (messagesElement.lastElementChild.classList.contains('self')) {
-        messagesElement.lastElementChild.querySelector('.read-count').textContent = `既読 ${this.activeUsersCount}`;
+      const lastReadCountElement = messagesElement.lastElementChild.querySelector('.read-count')[0];
+      if (lastReadCountElement) {
+        lastReadCountElement.dataset.readCount = this.activeUsersCount;
+        lastReadCountElement.textContent = `既読 ${this.activeUsersCount}`;
       }
 
       messagesElement.scrollTop = messagesElement.scrollHeight;
@@ -92,6 +94,19 @@ function sendMessage(obj, dmChannel) {
     dmChannel.sending(message);
     obj.value = "";
   }
+}
+
+function binarySearch(target, searchArray) {
+  let low = 0, high = searchArray.length;
+  while (low < high) {
+    const mid = Math.floor((low + high) / 2);
+    if (searchArray[mid] < target) {
+      low = mid + 1;
+    } else {
+      high = mid;
+    }
+  }
+  return searchArray.length - low;
 }
 
 document.addEventListener("turbo:load", () => {
