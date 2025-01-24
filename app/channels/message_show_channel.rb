@@ -11,19 +11,30 @@ class MessageShowChannel < ApplicationCable::Channel
     last_read_message_ids = $redis.hgetall(last_read_message_ids_key(params[:channel_id]))
     if last_read_message_ids.empty?
       last_read_message_ids = get_last_read_message_ids(params[:channel_id])
-      $redis.hset(last_read_message_ids_key(params[:channel_id]), last_read_message_ids)
+      $redis.mapped_hmset(last_read_message_ids_key(params[:channel_id]), last_read_message_ids)
+    else
+      last_read_message_ids = last_read_message_ids.each { |k, v| last_read_message_ids[k] = v.to_i }
     end
+    $redis.hset(last_read_message_ids_key(params[:channel_id]), connection.current_user.id, 0)
+    last_read_message_ids.delete(connection.current_user.id.to_s)
+    
     stream_from "channel_#{params[:channel_id]}"
     transmit({event: EVENT[:connected], params: {current_user_id: connection.current_user.id, last_read_message_ids: last_read_message_ids}})
     ActionCable.server.broadcast("channel_#{params[:channel_id]}", {event: EVENT[:joined], params: {user_id: connection.current_user.id}})
   end
 
   def unsubscribed
-    ActionCable.server.broadcast({event: EVENT[:leaved], params: {user_id: connection.current_user.id}})
-    last_message_id = $redis.get(last_message_id_key(params[:id]))
-    if ChannelUser.find_by(user_id: connection.current_user.id, channel_id: params[:channel_id]).update(last_message_id)
-      $redis.hset(last_read_message_ids(params[:id]), connection.current_user.id, last_message_id)
+    last_message_id = $redis.get(last_message_id_key(params[:channel_id]))
+    if last_message_id
+      last_message_id = last_message_id.to_i
+    else
+      last_message_id = Message.where(channel_id: params[:channel_id]).select(:id).last.id
+      $redis.set(last_message_id_key(params[:channel_id]), last_message_id)
     end
+    ActionCable.server.broadcast("channel_#{params[:channel_id]}", {event: EVENT[:leaved], params: {user_id: connection.current_user.id, last_read_message_id: last_message_id}})
+
+    ChannelUser.find_by(user_id: connection.current_user.id, channel_id: params[:channel_id]).update(last_read_message_id: last_message_id)
+    $redis.hset(last_read_message_ids_key(params[:channel_id]), connection.current_user.id, last_message_id)
   end
 
   def receive(data)

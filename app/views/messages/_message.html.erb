@@ -1,6 +1,6 @@
 <div class="message-box <%= 'self' if message.user_id == current_user.id %>">
   <% if message.user_id == current_user.id %>
-    <span class="read-count" data-message-id="<%= message.id %>"></span>
+    <span class="read-count" data-message-id="<%= message.id %>" data-read-count="0"></span>
   <% end %>
 
   <div class="message-content">

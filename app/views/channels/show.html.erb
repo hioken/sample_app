@@ -1,7 +1,10 @@
 <% provide(:title, 'DM画面') %>
-<script type="module">
-  import "channels/message_show_channel";
-</script>
+<% content_for :head do %>
+  <script type="module">
+    import "channels/message_show_channel";
+  </script>
+<% end %>
+
 
 <div class="row">
   <div class="col-md-8 col-md-offset-2">
@@ -14,7 +17,10 @@
       <button type="button" id="send-button" class="btn btn-primary">送信</button>
     </div>
     <div class="unsubscribe-btn">
-      <%= button_to "退出", leave_path(params[:id]), class: "btn btn-danger", method: :patch, data: { turbo: false } %>
+      <%= link_to "戻る", channels_path, class: "btn btn-success", data: { turbo: false } %>
+    </div>
+    <div class="unsubscribe-btn">
+      <%= button_to "チャットルームから退出", leave_path(params[:id]), class: "btn btn-danger", method: :patch, data: { turbo: false } %>
     </div>
   </div>
 </div>

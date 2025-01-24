@@ -1,4 +1,5 @@
 class ChannelsController < ApplicationController
+  before_action :logged_in_user, only: %i[index show]
   before_action :authenticate_dm_member, only: :show
 
   def index

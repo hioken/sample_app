@@ -37,13 +37,11 @@ action job単体, redis組み込み
 - userの入退出(fin)
 - show機能追加
   - 既読機能
-    1. redisのキャッシュ設定
-    2. channelとjsのsubscribe, unsubscribeの記述、データの受け渡しとredisまで
-    3. 既読数のviewと計算ロジック、ついでに右よせも済ます(next)
-    4. ２人部屋の既読
-  - 未読があるチャット欄に目印
-    - そのチャンネル+自身のchannel_usersのlast_read_message_idより大きいidのメッセージがあったら
+    - 入ってからリロードしないと送信できない(next)
+      - 問題解決知識をつけるためにしばらくjs勉強に以降(⇦)
   - 自分がスクロールしている時は勝手にスクロールしない
+- 未読があるチャット欄に目印
+  - そのチャンネル+自身のchannel_usersのlast_read_message_idより大きいidのメッセージがあったら
 ## step3
   - action jobの勉強
   - current_userを変えて、ログインしていたら常にサブスクライブする
@@ -53,6 +51,7 @@ action job単体, redis組み込み
     - indexに要る時は、メッセージ順変える
   - user検索機能改善2 fix_point_2
     - サジェスト, 名前でも検索可能
+  - ブラウザバックに対応
 
 ### step4
 - 画像可能、リサイズやサイズ制限など
@@ -68,6 +67,7 @@ action job単体, redis組み込み
   - キャッシュにしてまとめて保存することで、メッセージ保存時にuser_channleをチェックするようなバリデーションを作れる
     - 最初のメッセージ送信では、DBをチェック、チェック済みの組み合わせをcache
     - 以降はcacheから確認する
+  - 既読数処理もキャッシュを上手く使って減らしたい、channel:channel_id:message_idに既読したuser_idを並べていくとか
 - DBへのアクセスを減らす
 - 通知機能(API)
 
