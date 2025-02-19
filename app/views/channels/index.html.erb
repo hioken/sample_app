@@ -38,6 +38,7 @@
         <%= link_to channel_path(channel), class: 'channel-card' do %>
           <div class="channel-content">
             <div class="channel-message">
+              <span class="unread-mark"></span>
               <%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %>
             </div>
             <div class="channel-timestamp">

@@ -23,6 +23,19 @@
   align-items: center;
 }
 
+.unread-mark {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 5px;
+  display: inline-block;
+}
+
+.unread {
+  background-color: blue;
+}
+
+
 .channel-message {
   color: #6c757d; /* グレーの文字色 */
   font-size: 1em;
