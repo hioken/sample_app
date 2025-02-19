@@ -1,9 +1,33 @@
+# 機能
+## 使用
+- 既読一表に最後に既読したmessage_idを入れ、ログイン中は0を入れてこれを∞として扱う
+## 接続
+1. js: paramsに:channel_idを入れてハンドシェイク
+2. rails: `connect = current_userにcookiesの:sending_user_id`
+3. rails: radisからチャットメンバーの既読位置表`channel:#{channel_id}:last_read_message_ids"`を取得
+- 無ければDBから生成してredisに保存
+4. rails: redisの既読表のこのuserの現在の既読位置を0に設定, 取得した既読一表からはこのuserのキーを削除
+5. rails: stream許可, event: :connected 既読表をtransmit
+6. rails: event: :joined このuserのidをブロードキャスト
+7. js: event: :connected user_id, 既読表をセット、既読処理
+
+## 退出
+1. rails: event: leaved 退出者idと最終既読idをブロードキャスト
+
+## ブロードキャスト受け取り
+### joined
+1. 参加者idを取得して、既読表を∞に更新、更新前以上のidのメッセージ既読+1
+2. activecount +1
+
+### leaved
+1. 既読表を更新
+2. activecount -1
+
+### message
+1. メッセージ追加処理
+2. もし追加要素にread-countがあれば(自分の投稿なら)、既読数 = activecount
+
 # memo
-5. step2
-6. step3
-action job単体, redis組み込み
-
-
 # メッセージ機能
 ## 機能
 ### step0
@@ -35,25 +59,27 @@ action job単体, redis組み込み
     - フォローとshowページの退会済みアカウントの対応
 - user検索機能改善1(fin)
 - userの入退出(fin)
-- show機能追加
-  - 既読機能
-    - 入ってからリロードしないと送信できない(next)
-      - 問題解決知識をつけるためにしばらくjs勉強に以降(⇦)
-  - 自分がスクロールしている時は勝手にスクロールしない
+- show機能追加(next)
+  - 既読機能(fin)
+  - 自分がスクロールしている時は勝手にスクロールしない(next)
 - 未読があるチャット欄に目印
   - そのチャンネル+自身のchannel_usersのlast_read_message_idより大きいidのメッセージがあったら
+- windowのナビゲーション関数の解説をしてもらう
 ## step3
   - action jobの勉強
+    - redis組み込み?
   - current_userを変えて、ログインしていたら常にサブスクライブする
     - チャンネル追加
     - 通知機能
+      - sessionStorageに閉じてない通知ホップアップ入れる
     - アソシエーションの改良
     - indexに要る時は、メッセージ順変える
   - user検索機能改善2 fix_point_2
     - サジェスト, 名前でも検索可能
-  - ブラウザバックに対応
+  - ブラウザバック / タブ閉じに対応
 
 ### step4
+- localStorageを使ってUIをカスタマイズできるようにする
 - 画像可能、リサイズやサイズ制限など
 - indexとshowの読み込み改善
   - index: 一気に読み込まずに、3つずつ読み込む fix_point_3
