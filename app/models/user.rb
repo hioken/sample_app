@@ -13,7 +13,6 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :channel_users, dependent: :destroy
   has_many :channels, through: :channel_users
-  has_many :active_channels, -> { where(channel_users: { is_left: false }) }, through: :channel_users, source: :channel
 
   before_save :downcase_email
   before_create :create_activation_digest
@@ -43,6 +42,10 @@ class User < ApplicationRecord
 
   def name_with_id
     is_deleted ? "※削除済みのUser @#{unique_id}" : "#{name} @#{unique_id}"
+  end
+
+  def active_channels
+    channel_users.includes(channel: :latest_message).where(channel_users: { is_left: false })
   end
 
   # 永続的セッションのためにユーザーをデータベースに記憶する

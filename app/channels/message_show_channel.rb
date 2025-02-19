@@ -24,7 +24,7 @@ class MessageShowChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    last_message_id = $redis.get(last_message_id_key(params[:channel_id]))
+    last_message_id = $redis.get(last_message_id_key(params[:channel_id])) # fix_point5 これだともしredisに保存出来ていなかった場合に、古い未読情報が残って見たのに未読マーク出る けど放置でもいいかも
     if last_message_id
       last_message_id = last_message_id.to_i
     else
@@ -33,7 +33,9 @@ class MessageShowChannel < ApplicationCable::Channel
     end
     ActionCable.server.broadcast("channel_#{params[:channel_id]}", {event: EVENT[:leaved], params: {user_id: connection.current_user.id, last_read_message_id: last_message_id}})
 
-    ChannelUser.find_by(user_id: connection.current_user.id, channel_id: params[:channel_id]).update(last_read_message_id: last_message_id)
+    p '※※※※'
+    p last_message_id
+    p ChannelUser.find_by(user_id: connection.current_user.id, channel_id: params[:channel_id]).update(last_read_message_id: last_message_id)
     $redis.hset(last_read_message_ids_key(params[:channel_id]), connection.current_user.id, last_message_id)
   end
 

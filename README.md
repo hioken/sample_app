@@ -28,6 +28,8 @@
 2. もし追加要素にread-countがあれば(自分の投稿なら)、既読数 = activecount
 
 # memo
+channelオブジェクトいる？
+current_user.chanel_usersとmessage
 # メッセージ機能
 ## 機能
 ### step0
@@ -62,8 +64,7 @@
 - show機能追加(fin)
   - 既読機能
   - 自分がスクロールしている時は勝手にスクロールしない
-- 未読があるチャット欄に目印(next)
-  - そのチャンネル+自身のchannel_usersのlast_read_message_idより大きいidのメッセージがあったら
+- 未読があるチャット欄に目印(fin)
 - windowのナビゲーション関数の解説をしてもらう
 ## step3
   - action jobの勉強
@@ -72,6 +73,7 @@
     - チャンネル追加
     - 通知機能
       - sessionStorageに閉じてない通知ホップアップ入れる
+      - 未読目印の更新も忘れずに
     - アソシエーションの改良
     - indexに要る時は、メッセージ順変える
   - user検索機能改善2 fix_point_2

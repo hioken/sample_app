@@ -3,7 +3,7 @@ class ChannelsController < ApplicationController
   before_action :authenticate_dm_member, only: :show
 
   def index
-    @channels = current_user.active_channels.includes(:latest_message).order(last_message_at: :desc)
+    @channels = current_user.active_channels.order(last_message_at: :desc)
   end
 
   def show
