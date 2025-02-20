@@ -154,13 +154,21 @@ messageInput.addEventListener("keydown", function(e) {
   }
 });
 
-window.addEventListener("beforeunload",() => {
+// window.addEventListener("beforeunload",() => {
+//   sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
+// });
+console.error('以下動作未確認')
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
+});
+window.addEventListener("pagehide", () => {
   sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
 });
 
-document.getElementById('test-button').addEventListener("click",() => {
-    const element = document.getElementById('messages')
-    console.log(`height: ${element.scrollHeight}`)
-    console.log(`top: ${element.scrollTop}`)
-    console.log(`client: ${element.clientHeight}`)
-});
+  
+  // document.getElementById('test-button').addEventListener("click",() => {
+  //     const element = document.getElementById('messages')
+  //     console.log(`height: ${element.scrollHeight}`)
+  //     console.log(`top: ${element.scrollTop}`)
+  //     console.log(`client: ${element.clientHeight}`)
+  // });
