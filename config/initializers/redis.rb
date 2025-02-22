@@ -1,1 +1,1 @@
-$redis = Redis.new(url: 'redis://redis-master:6379/1')
+$redis = Redis.new(url: ENV[`REDIS_URL`])

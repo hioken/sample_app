@@ -22,6 +22,7 @@ gem 'turbo-rails',     '1.4.0'
 gem 'will_paginate', '3.3.1'
 gem 'redis', '~> 4.0'
 gem 'redis-rails'
+gem 'sidekiq'
 
 group :development, :test do
   gem 'debug', '~> 1.8'
