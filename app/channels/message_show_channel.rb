@@ -33,15 +33,13 @@ class MessageShowChannel < ApplicationCable::Channel
     end
     ActionCable.server.broadcast("channel_#{params[:channel_id]}", {event: EVENT[:leaved], params: {user_id: connection.current_user.id, last_read_message_id: last_message_id}})
 
-    p '※※※※'
-    p last_message_id
-    p ChannelUser.find_by(user_id: connection.current_user.id, channel_id: params[:channel_id]).update(last_read_message_id: last_message_id)
+    ChannelUser.find_by(user_id: connection.current_user.id, channel_id: params[:channel_id]).update(last_read_message_id: last_message_id)
     $redis.hset(last_read_message_ids_key(params[:channel_id]), connection.current_user.id, last_message_id)
   end
 
   def receive(data)
     message = Message.new(content: data["message"], user_id: connection.current_user.id, channel_id: params[:channel_id])
-    if message.save
+    if message.valid?
       ActionCable.server.broadcast(
         "channel_#{params[:channel_id]}",
         {
@@ -52,6 +50,7 @@ class MessageShowChannel < ApplicationCable::Channel
           )}
         }
       )
+      message.save
       $redis.set(last_message_id_key(params[:channel_id]), message.id)
     else
       transmit({event: EVENT[:error], params: message.errors.full_messages})

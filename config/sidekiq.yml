@@ -1,6 +1,6 @@
-:verbose: false
 :concurrency: 3
 :queues:
   - default
 :redis:
   url: ENV["REDIS_URL"]
+:logfile: './log/sidekiq.log'
