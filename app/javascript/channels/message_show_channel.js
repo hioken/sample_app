@@ -157,7 +157,6 @@ messageInput.addEventListener("keydown", function(e) {
 // window.addEventListener("beforeunload",() => {
 //   sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
 // });
-console.error('以下動作未確認')
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
 });

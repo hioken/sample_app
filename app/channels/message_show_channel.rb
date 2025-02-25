@@ -39,25 +39,35 @@ class MessageShowChannel < ApplicationCable::Channel
 
   def receive(data)
     message = Message.new(content: data["message"], user_id: connection.current_user.id, channel_id: params[:channel_id])
-    if message.valid?
-      ActionCable.server.broadcast(
-        "channel_#{params[:channel_id]}",
-        {
-          event: EVENT[:message], params: {
-          message_element: ApplicationController.renderer.render(
-            partial: 'messages/message',
-            locals: { message: message, current_user: connection.current_user }
-          )}
-        }
-      )
-      message.save
+    if message.save
+      ActionCable.server.broadcast("channel_#{params[:channel_id]}", {
+        event: EVENT[:message], params: {
+        message_element: ApplicationController.renderer.render(
+          partial: 'messages/message',
+          locals: { message: message, current_user: connection.current_user }
+        )}
+      })
       $redis.set(last_message_id_key(params[:channel_id]), message.id)
+      notify
     else
       transmit({event: EVENT[:error], params: message.errors.full_messages})
     end
   end
 
   private
+
+  def notify(message)
+    last_read_message_ids = $redis.hgetall(last_read_message_ids_key(params[:channel_id]))
+    last_read_message_ids.each do |user_id, is_joined|
+      if is_joined != 0
+        ActionCable.server.broadcast("notification_#{user_id}", {
+          message: message.content,
+          user_name: message.user.name,
+          channel_id: params[:channel_id]
+        })
+      end
+    end
+  end
 
   def get_last_read_message_ids(channel_id)
     ChannelUser.where(channel_id: channel_id).pluck(:user_id, :last_read_message_id).to_h

@@ -311,3 +311,32 @@ span.image {
     border: 0;
   }
 }
+
+.notification-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: flex;
+  flex-direction: column-reverse; /* 新しい通知が上に積まれる */
+  gap: 10px;
+  z-index: 1050; /* 他の要素より前面 */
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background-color: #333;
+  color: white;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+/* 通知が表示されるときの状態 */
+.notification.show {
+  opacity: 1;
+  transform: translateY(0);
+}

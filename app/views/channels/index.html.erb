@@ -1,4 +1,10 @@
 <% provide(:title, 'DM一覧') %>
+<% content_for :head do %>
+  <script type="module">
+    import "channels/message_index_channel";
+  </script>
+<% end %>
+
 <div class="row">
   <aside class="col-md-4">
     <section>
@@ -38,7 +44,7 @@
         <% channel = cu.channel %>
         <%= link_to channel_path(channel), class: 'channel-card' do %>
           <div class="channel-content">
-            <div class="channel-message">
+            <div id="channel_<%= cu.channel_id %>_message" class="channel-message">
               <span class="unread-mark <%= 'unread' if channel.latest_message.id > cu.last_read_message_id %>"></span>
               <%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %>
             </div>
