@@ -41,14 +41,16 @@ class MessageShowChannel < ApplicationCable::Channel
     message = Message.new(content: data["message"], user_id: connection.current_user.id, channel_id: params[:channel_id])
     if message.save
       ActionCable.server.broadcast("channel_#{params[:channel_id]}", {
-        event: EVENT[:message], params: {
-        message_element: ApplicationController.renderer.render(
-          partial: 'messages/message',
-          locals: { message: message, current_user: connection.current_user }
-        )}
+        event: EVENT[:message],
+        params: {
+          message_element: ApplicationController.renderer.render(
+            partial: 'messages/message',
+            locals: { message: message, current_user: connection.current_user }
+          )
+        }
       })
       $redis.set(last_message_id_key(params[:channel_id]), message.id)
-      notify
+      notify(message)
     else
       transmit({event: EVENT[:error], params: message.errors.full_messages})
     end
@@ -59,6 +61,9 @@ class MessageShowChannel < ApplicationCable::Channel
   def notify(message)
     last_read_message_ids = $redis.hgetall(last_read_message_ids_key(params[:channel_id]))
     last_read_message_ids.each do |user_id, is_joined|
+      p '!!!!!!!!!!!!'
+      p user_id
+      p is_joined
       if is_joined != 0
         ActionCable.server.broadcast("notification_#{user_id}", {
           message: message.content,

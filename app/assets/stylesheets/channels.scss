@@ -5,9 +5,9 @@
 
 .channel-card {
   display: block;
-  margin-bottom: 10px; /* 各DM間のマージン */
+  margin-bottom: 10px;
   padding: 15px;
-  border-radius: 8px; /* 角丸 */
+  border-radius: 8px;
   background-color: #f9f9f9;
   transition: background-color 0.2s ease-in-out;
 
@@ -37,9 +37,9 @@
 
 
 .channel-message {
-  color: #6c757d; /* グレーの文字色 */
+  color: #6c757d;
   font-size: 1em;
-  text-decoration: none; /* リンクっぽくしない */
+  text-decoration: none;
 }
 
 .channel-timestamp {
@@ -178,14 +178,14 @@
   padding: 10px 15px;
   border: 1px solid #e0e0e0;
   word-wrap: break-word;
-  background-color: #f0f0f0; /* デフォルト背景色 */
+  background-color: #f0f0f0;
   max-width: 80%; /* 横幅を80%に制限 */
 }
 
 /* 自分の発言用の右よせスタイル */
 .message-box.self {
-  background-color: #e8e8e8; /* 少し濃い背景色 */
-  margin-left: auto; /* 自動で右よせ */
+  background-color: #e8e8e8;
+  margin-left: auto;
 }
 
 /* 既読数用のスタイル */
@@ -193,25 +193,22 @@
   font-size: 0.8em;
   color: #777;
   display: block;
-  margin-bottom: 5px; /* メッセージ本文との隙間を確保 */
-  text-align: left; /* 左寄せ */
+  margin-bottom: 5px;
+  text-align: left;
 }
 
-/* メッセージ内容 */
 .message-content {
   font-size: 1em;
   color: #333;
   margin-bottom: 5px;
 }
 
-/* タイムスタンプ */
 .message-timestamp {
   font-size: 0.8em;
   color: #777;
   text-align: right;
 }
 
-/* 送信フォーム */
 .message-form {
   margin-top: 20px;
   display: flex;

@@ -1,33 +1,39 @@
 import consumer from "channels/consumer"
+const notificationContainer = document.getElementById("notification-container");
+const notificationTemplate = document.getElementById("notification-template");
+
+function notification (data) {
+  const notificationElement = notificationTemplate.content.cloneNode(true).firstElementChild;
+  console.log(data.message);
+  console.log(data.channel_id);
+  console.log(notificationElement);
+
+  notificationElement.querySelector(".notification-sender").textContent = `user: ${data.user_name}`;
+  notificationElement.querySelector(".notification-message").textContent = data.message;
+  notificationElement.querySelector(".notification-link").href = `channels/${data.channel_id}`;
+  notificationContainer.appendChild(notificationElement);
+}
 
 consumer.subscriptions.create("NotificationChannel", {
   received(data) {
-    // 通知処理
+    notification(data);
   }
+});
+
+notificationContainer.addEventListener("click", (event) => {
+  if (event.target.matches(".notification-close")) { event.target.closest(".notification").remove() }
 });
 
 
 const testButton = document.getElementById('test-button');
 let testIdx = 0;
-
 testButton.addEventListener('click', () => {
-  const container = document.getElementById("notification-container");
-  const template = document.getElementById("notification-template");
-  console.log(container)
-  console.log(template)
-  
-
-  const notification = template.content.cloneNode(true).firstElementChild;
+  const notification = notificationTemplate.content.cloneNode(true).firstElementChild;
   notification.querySelector(".notification-sender").textContent = 'アーサー' + testIdx;
   notification.querySelector(".notification-message").textContent = 'テストメッセージ' + testIdx;
-  const closeButton = notification.querySelector(".notification-close");
+  notification.querySelector(".notification-link").href = '/users';
   console.log(notification)
-  container.appendChild(notification);
+  notificationContainer.appendChild(notification);
   testIdx++;
 
-  closeButton.addEventListener('click', () => notification.remove() ); // ココがtype error
-  
 })
-
-
-

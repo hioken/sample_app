@@ -20,11 +20,13 @@
   <body>
     <template id="notification-template">
       <div class="notification">
-        <div class="notification-content">
-          <span class="notification-sender"></span> <!-- 送信ユーザー名 -->
-          <span class="notification-message"></span> <!-- メッセージ本文 -->
-        </div>
-        <button class="notification-close">✖</button> <!-- 閉じるボタン -->
+        <a class="notification-link">
+          <div class="notification-content">
+            <span class="notification-sender"></span>
+            <span class="notification-message"></span>
+          </div>
+        </a>
+        <button class="notification-close">✖</button>
       </div>
     </template>
     <div id="notification-container" class="notification-container"></div>

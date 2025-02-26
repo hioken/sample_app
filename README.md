@@ -69,17 +69,27 @@ current_user.chanel_usersとmessage
 - action job + sidekiqの導入(意味なかったけど勉強にはなった)(fin)
 - ログインしていたら常にサブスクライブする
   - チャンネル追加(fin)
-  - 通知機能
-    - サブスクライブ無事できているか動作確認(next)
-    - ホップアップボックス追加
-    - js処理
+  - 通知機能 全体
+    - サブスクライブ無事できているか動作確認(fin)
+    - ホップアップボックス追加(fin)
+    - js処理(fin)
     - sessionStorageに閉じてない通知ホップアップ入れる
+      - 遷移前に
+      - ホップアップクリックした時
+        - 全ホップアップ削除
+      - それ以外
+        - notificationContainerから全てのnotificationを取得
+        - その子要素をnotificationの中にidxのキーをさらに入れ、その中に入れて行く
+        - notification_channel.jsでsessionStorage.notificationから展開
+
+  - 通知機能 channels#index
     - 未読目印の更新も忘れずに
   - アソシエーションの改良
   - indexに要る時は、メッセージ順変える
 - user検索機能改善2 fix_point_2
   - サジェスト, 名前でも検索可能
 - ブラウザバック / タブ閉じに対応
+  - ホップアップが消えない
 
 ### step4
 - バッチ処理学習(sidekiqとその他で一つずつ)
