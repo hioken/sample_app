@@ -21,12 +21,14 @@
     <template id="notification-template">
       <div class="notification">
         <div class="notification-content">
-          <span class="notification-message"></span>
+          <span class="notification-sender"></span> <!-- 送信ユーザー名 -->
+          <span class="notification-message"></span> <!-- メッセージ本文 -->
         </div>
+        <button class="notification-close">✖</button> <!-- 閉じるボタン -->
       </div>
     </template>
-    <div id="notification-container" class="notification-container">
-    </div>
+    <div id="notification-container" class="notification-container"></div>
+
 
     <%= render 'layouts/header' %>
     <div class="container">
