@@ -9,7 +9,7 @@ function notification (data) {
   const notificationElement = notificationTemplate.content.cloneNode(true).firstElementChild;
   notificationElement.dataset.user_name = data.user_name;
   notificationElement.dataset.message = data.message
-  notificationElement.dataset.channelId = `channels/${data.channel_id}`
+  notificationElement.dataset.channelId = data.channel_id
   notificationElement.querySelector(".notification-sender").textContent = `user: ${data.user_name}`;
   notificationElement.querySelector(".notification-message").textContent = data.message;
   notificationElement.querySelector(".notification-link").href = `channels/${data.channel_id}`;
@@ -53,27 +53,21 @@ notificationContainer.addEventListener("click", (event) => {
   if (event.target.matches(".notification-close")) { event.target.closest(".notification").remove() }
 });
 
-let notificationClicked = false;
+let notificationClicked = true;
 document.addEventListener("click", (event) => {
   if (event.target.closest(".notification-link")) {
-    notificationClicked = true;
+    notificationClicked = false;
     sessionStorage.removeItem(sessionStorageKey);
   }
 });
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    if (notificationClicked) {
-      notificationClicked = false; // クリックした場合は何もしない
-    } else {
-      addNotificationToSession(); // 通常の処理
-    }
+  if (notificationClicked && document.hidden) {
+    addNotificationToSession();
   }
 });
 window.addEventListener("pagehide", () => {
   if (notificationClicked) {
-    notificationClicked = false; // クリックした場合は何もしない
-  } else {
-    addNotificationToSession(); // 通常の処理
+    addNotificationToSession();
   }
 });
 

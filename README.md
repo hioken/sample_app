@@ -73,15 +73,15 @@ current_user.chanel_usersとmessage
     - サブスクライブ無事できているか動作確認(fin)
     - ホップアップボックス追加(fin)
     - js処理(fin)
-    - sessionStorageに閉じてない通知ホップアップ入れる
-      - ホップアップクリックした時(WIP)
+    - sessionStorageに閉じてない通知ホップアップ入れる(fin)
+      - ホップアップクリックした時
         - 全ホップアップ削除
       - それ以外(fin)
         - notificationContainerから全てのnotificationを取得
         - その子要素をnotificationの中にidxのキーをさらに入れ、その中に入れて行く
         - notification_channel.jsでsessionStorage.notificationから展開
 
-  - 通知機能 channels#index
+  - 通知機能 channels#index(next)
     - 未読目印の更新も忘れずに
   - アソシエーションの改良
   - indexに要る時は、メッセージ順変える
