@@ -74,10 +74,9 @@ current_user.chanel_usersとmessage
     - ホップアップボックス追加(fin)
     - js処理(fin)
     - sessionStorageに閉じてない通知ホップアップ入れる
-      - 遷移前に
-      - ホップアップクリックした時
+      - ホップアップクリックした時(WIP)
         - 全ホップアップ削除
-      - それ以外
+      - それ以外(fin)
         - notificationContainerから全てのnotificationを取得
         - その子要素をnotificationの中にidxのキーをさらに入れ、その中に入れて行く
         - notification_channel.jsでsessionStorage.notificationから展開

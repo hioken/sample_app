@@ -61,12 +61,9 @@ class MessageShowChannel < ApplicationCable::Channel
   def notify(message)
     last_read_message_ids = $redis.hgetall(last_read_message_ids_key(params[:channel_id]))
     last_read_message_ids.each do |user_id, is_joined|
-      p '!!!!!!!!!!!!'
-      p user_id
-      p is_joined
-      if is_joined != 0
+      if is_joined != "0"
         ActionCable.server.broadcast("notification_#{user_id}", {
-          message: message.content,
+          message: truncate_message(message.content),
           user_name: message.user.name,
           channel_id: params[:channel_id]
         })
@@ -85,4 +82,9 @@ class MessageShowChannel < ApplicationCable::Channel
   def last_read_message_ids_key(channel_id)
     "channel:#{channel_id}:last_read_message_ids"
   end
+
+  def truncate_message(text, length = 40)
+    text.length > length ? "#{text.slice(0, length)}..." : text
+  end
+
 end
