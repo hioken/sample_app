@@ -1,6 +1,6 @@
 import consumer from "channels/consumer"
+import { channelId } from "./channel_id";
 
-const channelId = window.location.pathname.match(/\/channels\/(\d+)/)?.[1];
 const messageInput = document.getElementById("message-input");
 const sendButton = document.getElementById("send-button");
 

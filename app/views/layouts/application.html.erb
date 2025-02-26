@@ -11,11 +11,9 @@
 
     <%= javascript_importmap_tags %>
     <%= yield :head %>
-    <% if current_user && controller_name != 'channels' %>
-      <script type="module">
-        import "channels/notification_channel";
-      </script>
-    <% end %>
+    <script type="module">
+      import "channels/notification_channel";
+    </script>
   </head>
   <body>
     <template id="notification-template">

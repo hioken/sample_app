@@ -39,14 +39,14 @@
     <% end %>
 
     <!-- チャンネル一覧 -->
-    <div class="channel-list">
+    <div id="channels-container" class="channel-list">
       <% @channels.each do |cu| %>
         <% channel = cu.channel %>
         <%= link_to channel_path(channel), class: 'channel-card' do %>
           <div class="channel-content">
-            <div id="channel_<%= cu.channel_id %>_message" class="channel-message">
+            <div id="channel-<%= cu.channel_id %>-message-box" class="channel-message">
               <span class="unread-mark <%= 'unread' if channel.latest_message.id > cu.last_read_message_id %>"></span>
-              <%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %>
+              <span class="channel-message"><%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
             </div>
             <div class="channel-timestamp">
               <%= "latest: #{channel.latest_message.id}, last_read: #{cu.last_read_message_id}" %>

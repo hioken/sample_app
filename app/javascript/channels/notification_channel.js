@@ -45,6 +45,14 @@ consumer.subscriptions.create(
   {
     received(data) {
       notification(data);
+      const messageBox = document.getElementById(`channel-${data.channel_id}-message-box`)
+      if (messageBox) {
+        messageBox.querySelector('.unread-mark').classList.toggle('unread', true);
+        messageBox.querySelector('.channel-message').textContent = data.message;
+        console.log(messageBox);
+        const parent = document.getElementById('channels-container');
+        parent.insertBefore(messageBox.closest('a'), parent.firstChild);
+      }
     }
   }
 );

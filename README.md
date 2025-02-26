@@ -80,13 +80,11 @@ current_user.chanel_usersとmessage
         - notificationContainerから全てのnotificationを取得
         - その子要素をnotificationの中にidxのキーをさらに入れ、その中に入れて行く
         - notification_channel.jsでsessionStorage.notificationから展開
-
-  - 通知機能 channels#index(next)
-    - 未読目印の更新も忘れずに
-  - アソシエーションの改良
+- 通知機能 channels#index(fin)
   - indexに要る時は、メッセージ順変える
-- user検索機能改善2 fix_point_2
+- user検索機能改善2 fix_point_2(next)
   - サジェスト, 名前でも検索可能
+- 既読バグ調査
 - ブラウザバック / タブ閉じに対応
   - ホップアップが消えない
 

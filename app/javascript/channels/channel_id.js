@@ -1,0 +1,1 @@
+export const channelId = window.location.pathname.match(/\/channels\/(\d+)/)?.[1];
