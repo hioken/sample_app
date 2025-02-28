@@ -11,7 +11,7 @@ services:
     command: ["bash"]
     environment:
       RAILS_ENV: development
-      REDIS_URL: redis://redis-master:6379/1
+      REDIS_URL: redis://redis-master:6379
     depends_on:
       - redis
 

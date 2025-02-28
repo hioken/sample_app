@@ -73,6 +73,11 @@ class ChannelsController < ApplicationController
     redirect_to channels_path
   end
 
+  def suggest
+    make_suggest(params[:unique_id_or_name])
+    # サジェスト返す
+  end
+
   private
 
   def authenticate_dm_member
@@ -80,5 +85,9 @@ class ChannelsController < ApplicationController
     unless @channel.is_member?(current_user.id)
       redirect_to channels_path
     end
+  end
+
+  def make_suggest(word)
+    # サジェスト作る
   end
 end

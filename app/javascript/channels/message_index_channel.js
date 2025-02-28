@@ -1,8 +1,2 @@
-import consumer from "channels/consumer"
-
-consumer.subscriptions.create("NotificationChannel", {
-  received(data) {
-    // DM画面の最新メッセージを更新
-    // getElementIdBy(channel_<%= cu.channel_id %>_message)
-  }
-});
+// サジェストリクエストと受取処理
+// 受け取る時に、既にhiddenがあるならアラートして削除

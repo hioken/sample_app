@@ -1,3 +1,7 @@
+# redisのリセット
+$redis_readed.flushdb
+$redis_suggest.flushdb
+
 # メインのサンプルユーザーを1人作成する
 User.create!(name: 'Example User',
              email: 'example@railstutorial.org',
@@ -9,6 +13,7 @@ User.create!(name: 'Example User',
              activated_at: Time.zone.now)
 
 # 追加のユーザーをまとめて生成する
+# 名前を分散させる word 1~3を組合わせて区切るとか
 99.times do |n|
   name  = Faker::Name.name
   unique_id = "uid#{n + 1}"
@@ -59,3 +64,6 @@ time = Time.current
     raise
   end
 end
+
+# ここにredisのキャッシュ作成
+# さらに索引も作る
