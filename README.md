@@ -37,39 +37,6 @@ current_user.chanel_usersとmessage
 
 # メッセージ機能
 ## 機能
-### step0
-- 設計(fin)
-- actioncable, redisの設定(fin)
-
-### step1
-- model設定(fin)
-- テストデータ, seed(fin)
-- modelテスト(fin)
-- 大まかなview(fin)
-- indexのDm作成機能(fin)
-- show(fin)
-
-- controller簡易テスト(fin)
-- 総合テスト(fin)
-
-- 最初はチャット詳細を開いた時だけwebsocketする形で実装(fin)
-- 実装で追加した要素のテスト(fin)
-## step2
-- js単体読み込み(fin)
-- user(fin)
-  - 以下の論理削除、idの動作確認
-    - 論理削除とidのカラム追加
-    - アカウントidの設定(ユニーク等)
-    - 今回の学習目的に沿って、削除フラグがtrueなら適当なページに飛ばすだけにする
-    - 上記のメソッドを全体に適応
-    - editページに論理削除追加
-    - フォローとshowページの退会済みアカウントの対応
-- user検索機能改善1(fin)
-- userの入退出(fin)
-- show機能追加(fin)
-  - 既読機能
-  - 自分がスクロールしている時は勝手にスクロールしない
-- 未読があるチャット欄に目印(fin)
 ## step3
 - action job + sidekiqの導入(意味なかったけど勉強にはなった)(fin)
 - ログインしていたら常にサブスクライブする
@@ -90,13 +57,13 @@ current_user.chanel_usersとmessage
 - user検索機能改善2 fix_point_2(next)(3/2, 3)
   - サジェスト
     - 名前とuuid
+      - @を付けた場合はuuid, 無しの場合はnameのサジェスト
     - 表示は name @~
     - js側で重複制御、user_idのリスト作っておいて、含まれているなら弾く
-    - redis/2でやる
-  0. 設定とseedの更新: redis.rb, seeds.rb
-  1. サジェストを作る機能のコーディング: channels_controller
+    - redis/2, /3でやる
+  0. 設定とseedの更新: seedで使うactionJob作成, seeds.rb
+  1. サジェストを作る機能のコーディング: job(本来はredisを分けたりして、更新中にアクセスされても大丈夫なようにするんだろうけど割愛)
   2. フロント側でデータ送れるように、inputのnameとか1に合わせる: channels/_add_member_form.html.erb, message_index_channel.js
-  3. 必要なら索引を更新する処理: samples_controller(コンソールから実行可能)
 - 既読バグ調査(3/4)
 - ブラウザバック / タブ閉じに対応(3/5)
   - ホップアップが消えない
@@ -132,3 +99,37 @@ current_user.chanel_usersとmessage
 ### step6
 - 通知機能(API)
 
+## 済
+### step0
+- 設計(fin)
+- actioncable, redisの設定(fin)
+
+### step1
+- model設定(fin)
+- テストデータ, seed(fin)
+- modelテスト(fin)
+- 大まかなview(fin)
+- indexのDm作成機能(fin)
+- show(fin)
+
+- controller簡易テスト(fin)
+- 総合テスト(fin)
+
+- 最初はチャット詳細を開いた時だけwebsocketする形で実装(fin)
+- 実装で追加した要素のテスト(fin)
+## step2
+- js単体読み込み(fin)
+- user(fin)
+  - 以下の論理削除、idの動作確認
+    - 論理削除とidのカラム追加
+    - アカウントidの設定(ユニーク等)
+    - 今回の学習目的に沿って、削除フラグがtrueなら適当なページに飛ばすだけにする
+    - 上記のメソッドを全体に適応
+    - editページに論理削除追加
+    - フォローとshowページの退会済みアカウントの対応
+- user検索機能改善1(fin)
+- userの入退出(fin)
+- show機能追加(fin)
+  - 既読機能
+  - 自分がスクロールしている時は勝手にスクロールしない
+- 未読があるチャット欄に目印(fin)
