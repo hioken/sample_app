@@ -3,14 +3,13 @@ class BuildSuggestIndexJob < ApplicationJob
 
   def perform
     users = User.all
-    unique_id_index = []
-    name_index = []
-    users.each do |user|
-      userData = [user.id, user.unique_id, user.name]
-      unique_id_index << userData
-      name_index << [user.name.codepoints.join(':'), userData]
-    end
+    redis_index = users.map { |user| ["#{user.unique_id}:#{to_codepoints_hex(user.name)}", "" ] }
+    $redis_suggest_index.mset(*redis_index)
+  end
 
-    $redis_unique_id_index.set # jsonでhozon?
+  private
+  
+  def to_codepoints_hex(str)
+    str.codepoints.map { |c| c.to_s(16) }.join(":")
   end
 end
