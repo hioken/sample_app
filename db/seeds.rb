@@ -65,5 +65,4 @@ time = Time.current
   end
 end
 
-# ここにredisのキャッシュ作成
-# さらに索引も作る
+# 1: user名変更, 2: job読み込み

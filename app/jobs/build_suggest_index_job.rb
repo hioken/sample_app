@@ -9,7 +9,7 @@ class BuildSuggestIndexJob < ApplicationJob
 
   private
   
-  def to_codepoints_hex(str)
-    str.codepoints.map { |c| c.to_s(16) }.join(":")
+  def to_codepoints_base32(str)
+    str.codepoints.map { |c| c.to_s(32) }.join(":")
   end
 end

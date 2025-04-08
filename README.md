@@ -1,7 +1,4 @@
 # memo
-## 期限
-猶予: 7日
-猶予消化: -1(2/28)
 ## コード
 channelオブジェクトいる？
 current_user.chanel_usersとmessage
@@ -35,6 +32,19 @@ current_user.chanel_usersとmessage
 1. メッセージ追加処理
 2. もし追加要素にread-countがあれば(自分の投稿なら)、既読数 = activecount
 
+## サジェスト
+### 機能
+1. redisの/2にunique_id:name(code変換)のindexを作成
+2. @が有れば`word*`を、そうでなければ`*:word:*`をscan
+3. code変換を済ませて返す
+### code
+1. 設定とseedの更新: seedで使うactionJob作成, seeds.rb(userの名前も工夫して変更する)
+2. サジェストを作る機能のコーディング: job(本来はredisを分けたりして、更新中にアクセスされても大丈夫なようにするんだろうけど割愛)
+3. フロント側でデータ送れるように、inputのnameとか1に合わせる: channels/_add_member_form.html.erb, message_index_channel.js
+- ※コード変換は、codepoints, pack("U*")で可能
+- ※基数変換はto_s(x), to_i(x)で可能
+
+
 # メッセージ機能
 ## 機能
 ## step3
@@ -54,16 +64,8 @@ current_user.chanel_usersとmessage
         - notification_channel.jsでsessionStorage.notificationから展開
 - 通知機能 channels#index(fin)
   - indexに要る時は、メッセージ順変える
-- user検索機能改善2 fix_point_2(next)(3/2, 3)
+- user検索機能改善2 fix_point_2(next)
   - サジェスト
-    - 名前とuuid
-      - @を付けた場合はuuid, 無しの場合はnameのサジェスト
-    - 表示は name @~
-    - js側で重複制御、user_idのリスト作っておいて、含まれているなら弾く
-    - redis/2, /3でやる
-  0. 設定とseedの更新: seedで使うactionJob作成, seeds.rb
-  1. サジェストを作る機能のコーディング: job(本来はredisを分けたりして、更新中にアクセスされても大丈夫なようにするんだろうけど割愛)
-  2. フロント側でデータ送れるように、inputのnameとか1に合わせる: channels/_add_member_form.html.erb, message_index_channel.js
 - 既読バグ調査(3/4)
 - ブラウザバック / タブ閉じに対応(3/5)
   - ホップアップが消えない
@@ -73,28 +75,28 @@ current_user.chanel_usersとmessage
   - フォローしている人 > フォロワー数 > 投稿数
 
 ### step4
-- バッチ処理学習(sidekiqとその他で一つずつ)(3/6~8)
-- バッチ処理でキャッシュ更新(3/9, 10)
+- バッチ処理学習(sidekiqとその他で一つずつ)
+- バッチ処理でキャッシュ更新
   - キャッシュの寿命設定
-- 画像可能、リサイズやサイズ制限など(3/11)
+- 画像可能、リサイズやサイズ制限など
 - localStorageを使ってUIをカスタマイズできるようにする(拘らずに、時間大切)(3/12)
 - indexとshowの読み込み改善(3/12~14)
   - index: 一気に読み込まずに、3つずつ読み込む fix_point_3
   - show: 最初の何件かだけ表示して、スクロールで追加読み込み
 - DMを送ろうとした側は、メッセージを送っていなくても部屋が作成され、送られる側はメッセージが届くまで部屋が表示されない(3/14)
-- FactoryBotでテストデータ改善(3/15)
-- 保存失敗ログを作って最終的な不整合を防ぐ(3/16, 17)
+- FactoryBotでテストデータ改善
+- 保存失敗ログを作って最終的な不整合を防ぐ
   - 保存直前でDBを落としたりして検証
   - バッチ処理も
 
 ### step5
-- 本番環境(3/17~21)
-- キャッシュ実装(3/22,23)
+- 本番環境
+- キャッシュ実装
   - キャッシュにしてまとめて保存することで、メッセージ保存時にuser_channleをチェックするようなバリデーションを作れる
     - 最初のメッセージ送信では、DBをチェック、チェック済みの組み合わせをcache
     - 以降はcacheから確認する
   - 既読数処理もキャッシュを上手く使って減らしたい、channel:channel_id:message_idに既読したuser_idを並べていくとか
-- DBへのアクセスを減らす(3/24)
+- DBへのアクセスを減らす
 
 ### step6
 - 通知機能(API)
