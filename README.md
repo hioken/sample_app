@@ -2,6 +2,15 @@
 ## コード
 channelオブジェクトいる？
 current_user.chanel_usersとmessage
+1. 今アプリが機能しているか確認と、redisに接続  
+2. **サジェスト作成job作る**  
+   1. **app/jobs/build\_suggest\_index\_job.rb**  
+   2. **redis**  
+3. **サジェストリクエストを受け取ってredisからとってきて返す処理**  
+   1. **channels\#suggest(def make\_suggestも)**
+4. **channels\#suggestにリクエストを送るスクリプト組む & サジェストが帰ってきたときのレイヤー**  
+   1. **app/javascript/message\_index\_channel.js**  
+   2. **app/views/channels/index.html.erb, *add*\_member\_form.html.erb**  
 
 # 機能
 ## 使用

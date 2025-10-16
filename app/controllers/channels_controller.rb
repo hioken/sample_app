@@ -74,8 +74,7 @@ class ChannelsController < ApplicationController
   end
 
   def suggest
-    make_suggest(params[:unique_id_or_name])
-    # サジェスト返す
+    result = make_suggest(params[:unique_id_or_name])
   end
 
   private
@@ -88,6 +87,25 @@ class ChannelsController < ApplicationController
   end
 
   def make_suggest(word)
-    # サジェスト作る
+    search_word = word.slice(0) == '@' ? "#{word}*" : "*#{to_codepoints_base32(word)}*"
+    cursor, result = $redis_suggest_index.scan('0', match: search_word, count: 10)
+    if cursor != '0'
+      second = $redis_suggest_index.scan(cursor, match: search_word, count: 10)
+      result.concat(second)
+    end
+    to_string_from_suggest_index(result)
+  end
+
+  def to_codepoints_base32(str)
+    str.codepoints.map { |c| c.to_s(32) }.join(":")
+  end
+
+  def to_string_from_suggest_index(data) # コンソールで動作確認済み
+    data.map do |record|
+      record_tmp = record.split(':')
+      uid = "@#{record_tmp.slice!(0)}"
+      username = record_tmp.map!{ |c| c.to_i(32).chr }.join
+      [uid, username]
+    end
   end
 end
