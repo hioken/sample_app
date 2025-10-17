@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   resources :channels, only: %i[index show create]
   post '/add_user', to: 'channels#add_user', as: :add_user
   patch '/leave/:id', to: 'channels#leave', as: :leave
+  get '/suggest/:uid_or_name', to: 'channels#suggest'
 
 end
 

@@ -158,6 +158,35 @@
   }
 }
 
+/* サジェスト */
+.suggest-list {
+  margin-top: 5px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  background-color: #fff;
+}
+
+.suggest-item {
+  padding: 6px 10px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+
+.suggest-item:last-child {
+  border-bottom: none;
+}
+
+.suggest-username {
+  font-weight: bold;
+  margin-right: 6px;
+}
+
+.suggest-uid {
+  color: #888;
+  font-size: 0.9em;
+}
 
 /* DM画面共通スタイル */
 .messages {

@@ -74,7 +74,16 @@ class ChannelsController < ApplicationController
   end
 
   def suggest
-    result = make_suggest(params[:unique_id_or_name])
+    search_word = params[:uid_or_name].slice(0) == '@' ? "#{params[:uid_or_name][1..]}*" : "*#{to_codepoints_base32(params[:uid_or_name])}*"
+    puts "!!!!!!!!!!!!puts search_word"
+    puts search_word
+    cursor, result = $redis_suggest_index.scan('0', match: search_word, count: 10)
+    # if cursor != '0'
+    #   second = $redis_suggest_index.scan(cursor, match: search_word, count: 10)
+    #   result.concat(second)
+    # end
+    result = to_string_from_suggest_index(result)
+    render json: result   
   end
 
   private
@@ -86,21 +95,11 @@ class ChannelsController < ApplicationController
     end
   end
 
-  def make_suggest(word)
-    search_word = word.slice(0) == '@' ? "#{word}*" : "*#{to_codepoints_base32(word)}*"
-    cursor, result = $redis_suggest_index.scan('0', match: search_word, count: 10)
-    if cursor != '0'
-      second = $redis_suggest_index.scan(cursor, match: search_word, count: 10)
-      result.concat(second)
-    end
-    to_string_from_suggest_index(result)
-  end
-
   def to_codepoints_base32(str)
     str.codepoints.map { |c| c.to_s(32) }.join(":")
   end
 
-  def to_string_from_suggest_index(data) # コンソールで動作確認済み
+  def to_string_from_suggest_index(data)
     data.map do |record|
       record_tmp = record.split(':')
       uid = "@#{record_tmp.slice!(0)}"

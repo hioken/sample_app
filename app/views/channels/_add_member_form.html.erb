@@ -1,11 +1,20 @@
 <div id="add-member-form">
   <%= form_with url: add_user_path, method: :post, data: { turbo: true } do |f| %>
     <div class="search-add-user">
-      <%= f.text_field :unique_id, placeholder: "@~ or name", class: "user-search-input", value: undefind_user %>
+      <%= f.text_field :unique_id, placeholder: "@~ or name", id: "user-search-input", class: "user-search-input", value: undefind_user %>
       <%= f.submit '追加', class: "add-user-button" %>
     </div>
   <% end %>
   <% if undefind_user %>
     <p style="color: red">ユーザーが見つかりません</p>
   <% end %>
+
+  <template id="suggest-item-template">
+    <div class="suggest-item">
+      <span class="suggest-username"></span>
+      <span class="suggest-uid"></span>
+    </div>
+  </template>
+
+  <div id="suggest-list" class="suggest-list"></div>
 </div>
