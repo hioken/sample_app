@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   patch '/leave/:id', to: 'channels#leave', as: :leave
   get '/suggest/:uid_or_name', to: 'channels#suggest'
 
+  get '/sandbox', to: 'sandbox#sandbox'
 end
 
   # mount Rails::Importmap::Engine, at: 'rails/importmap'

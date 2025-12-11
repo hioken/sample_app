@@ -1,0 +1,15 @@
+<% content_for :head do %>
+  <script type="module">
+    // import "controllers/sandbox_controller";
+  </script>
+<% end %>
+<div>
+  <h1>Sandbox</h1>
+</div>
+<div data-controller="hello">
+  <input data-hello-target="name" type="text" placeholder="name" />
+
+  <button data-action="click->hello#greet">
+    挨拶する
+  </button>
+</div>

@@ -1,5 +1,6 @@
+import "@hotwired/turbo-rails";
 import "custom/menu";
 import "custom/image_upload";
-import "@hotwired/turbo-rails";
-// import "controllers";
+import "controllers/application";
+import "controllers/index";
 // import "channels";
