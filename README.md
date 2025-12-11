@@ -54,39 +54,18 @@ current_user.chanel_usersとmessage
 - ※基数変換はto_s(x), to_i(x)で可能
 
 
-# メッセージ機能
-## 機能
-## step3
-- action job + sidekiqの導入(意味なかったけど勉強にはなった)(fin)
-- ログインしていたら常にサブスクライブする
-  - チャンネル追加(fin)
-  - 通知機能 全体
-    - サブスクライブ無事できているか動作確認(fin)
-    - ホップアップボックス追加(fin)
-    - js処理(fin)
-    - sessionStorageに閉じてない通知ホップアップ入れる(fin)
-      - ホップアップクリックした時
-        - 全ホップアップ削除
-      - それ以外(fin)
-        - notificationContainerから全てのnotificationを取得
-        - その子要素をnotificationの中にidxのキーをさらに入れ、その中に入れて行く
-        - notification_channel.jsでsessionStorage.notificationから展開
-- 通知機能 channels#index(fin)
-  - indexに要る時は、メッセージ順変える
-- user検索機能改善2 fix_point_2(next)
-  - サジェスト
-- 既読バグ調査(3/4)
-- ブラウザバック / タブ閉じに対応(3/5)
-  - ホップアップが消えない
 
-### step3α
+# task
+## doing
+### step4-1
+- ブラウザバック / タブ閉じに対応
 - サジェストソート + limit
   - フォローしている人 > フォロワー数 > 投稿数
-
-### step4
 - バッチ処理学習(sidekiqとその他で一つずつ)
 - バッチ処理でキャッシュ更新
   - キャッシュの寿命設定
+
+### step4-2
 - 画像可能、リサイズやサイズ制限など
 - localStorageを使ってUIをカスタマイズできるようにする(拘らずに、時間大切)(3/12)
 - indexとshowの読み込み改善(3/12~14)
@@ -110,7 +89,7 @@ current_user.chanel_usersとmessage
 ### step6
 - 通知機能(API)
 
-## 済
+## done
 ### step0
 - 設計(fin)
 - actioncable, redisの設定(fin)
@@ -144,3 +123,23 @@ current_user.chanel_usersとmessage
   - 既読機能
   - 自分がスクロールしている時は勝手にスクロールしない
 - 未読があるチャット欄に目印(fin)
+
+## step3
+- action job + sidekiqの導入(意味なかったけど勉強にはなった)(fin)
+- ログインしていたら常にサブスクライブする
+  - チャンネル追加(fin)
+  - 通知機能 全体
+    - サブスクライブ無事できているか動作確認(fin)
+    - ホップアップボックス追加(fin)
+    - js処理(fin)
+    - sessionStorageに閉じてない通知ホップアップ入れる(fin)
+      - ホップアップクリックした時
+        - 全ホップアップ削除
+      - それ以外(fin)
+        - notificationContainerから全てのnotificationを取得
+        - その子要素をnotificationの中にidxのキーをさらに入れ、その中に入れて行く
+        - notification_channel.jsでsessionStorage.notificationから展開
+- 通知機能 channels#index(fin)
+  - indexに要る時は、メッセージ順変える
+- user検索機能改善2 fix_point_2(fin)
+  - サジェスト

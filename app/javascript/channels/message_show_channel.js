@@ -3,6 +3,7 @@ import { channelId } from "./channel_id";
 
 const messageInput = document.getElementById("message-input");
 const sendButton = document.getElementById("send-button");
+const draft = sessionStorage.getItem(`${channelId}:draft`);
 
 const scrollMessage = function () {
   const element = document.getElementById('messages')
@@ -12,6 +13,34 @@ const scrollMessage = function () {
     }
   }
 }()
+
+function sendMessage(obj, dmChannel) {
+  let message = obj.value.trim();
+  if (message.length > 0) {
+    dmChannel.sending(message);
+    obj.value = "";
+    sessionStorage.removeItem(`${channelId}:draft`);
+  }
+}
+
+function binarySearch(target, searchArray) {
+  let low = 0, high = searchArray.length;
+  while (low < high) {
+    const mid = Math.floor((low + high) / 2);
+    if (searchArray[mid] < target) {
+      low = mid + 1;
+    } else {
+      high = mid;
+    }
+  }
+  return searchArray.length - low;
+}
+
+console.log('draft!!!: ' + draft);
+console.log(sessionStorage.getItem(`${channelId}:draft`))
+if (draft) {
+  messageInput.value = draft
+}
 
 const dmChannel = consumer.subscriptions.create(
   {channel: "MessageShowChannel", channel_id: channelId },
@@ -40,11 +69,6 @@ const dmChannel = consumer.subscriptions.create(
     },
 
     handleConnected(data) {
-      const draft = sessionStorage.getItem(`${channelId}:draft`);
-      if (draft) {
-        messageInput.value = draft
-      }
-
       this.currentUserId = data.current_user_id;
       // delete data.last_read_message_ids[this.currentUserId]; 現在サーバー側でやる事にしている
       this.lastReadMessageIds = data.last_read_message_ids;
@@ -64,7 +88,6 @@ const dmChannel = consumer.subscriptions.create(
       });
 
       console.log('##### connected #####')
-      console.log(sessionStorage.getItem(`${channelId}:draft`))
       console.log(this.lastReadMessageIds);
       console.log(`currentUserId ${this.currentUserId}`);
       console.log(`activeUsersCount ${this.activeUsersCount}`);
@@ -122,28 +145,6 @@ const dmChannel = consumer.subscriptions.create(
   }
 );
 
-function sendMessage(obj, dmChannel) {
-  let message = obj.value.trim();
-  if (message.length > 0) {
-    dmChannel.sending(message);
-    obj.value = "";
-    sessionStorage.removeItem(`${channelId}:draft`);
-  }
-}
-
-function binarySearch(target, searchArray) {
-  let low = 0, high = searchArray.length;
-  while (low < high) {
-    const mid = Math.floor((low + high) / 2);
-    if (searchArray[mid] < target) {
-      low = mid + 1;
-    } else {
-      high = mid;
-    }
-  }
-  return searchArray.length - low;
-}
-
 sendButton.addEventListener("click", () => {
   sendMessage(messageInput, dmChannel);
 });
@@ -158,16 +159,21 @@ messageInput.addEventListener("keydown", function(e) {
 //   sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
 // });
 document.addEventListener("visibilitychange", () => {
+  // consumer.subscriptions.remove(dmChannel);
   if (document.hidden) sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
 });
 window.addEventListener("pagehide", () => {
+  // consumer.subscriptions.remove(dmChannel);
   sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
 });
 
-  
-  // document.getElementById('test-button').addEventListener("click",() => {
+document.getElementById('test-button').addEventListener("click",() => {
+  // スクロールテスト 
   //     const element = document.getElementById('messages')
   //     console.log(`height: ${element.scrollHeight}`)
   //     console.log(`top: ${element.scrollTop}`)
   //     console.log(`client: ${element.clientHeight}`)
-  // });
+
+  // 接続遮断テスト
+  consumer.subscriptions.remove(dmChannel);
+});

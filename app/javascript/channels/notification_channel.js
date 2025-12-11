@@ -58,7 +58,9 @@ consumer.subscriptions.create(
 );
 
 notificationContainer.addEventListener("click", (event) => {
-  if (event.target.matches(".notification-close")) { event.target.closest(".notification").remove() }
+  if (event.target.matches(".notification-close")) {
+    event.target.closest(".notification").remove()
+  }
 });
 
 let notificationClicked = true;
@@ -88,14 +90,14 @@ window.addEventListener("pagehide", () => {
 // });
 
 
-const testButton = document.getElementById('test-button');
-let testIdx = 0;
-testButton.addEventListener('click', () => {
-  notification({
-    user_name: 'アーサー' + testIdx,
-    message: 'テストメッセージ' + testIdx,
-    channel_id: 1
-  })
-  testIdx++;
-  sessionStorage.removeItem(sessionStorageKey)
-})
+// const testButton = document.getElementById('test-button');
+// let testIdx = 0;
+// testButton.addEventListener('click', () => {
+//   notification({
+//     user_name: 'アーサー' + testIdx,
+//     message: 'テストメッセージ' + testIdx,
+//     channel_id: 1
+//   })
+//   testIdx++;
+//   sessionStorage.removeItem(sessionStorageKey)
+// })

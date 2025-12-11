@@ -12,7 +12,6 @@ class ChannelsController < ApplicationController
   end
 
   def create
-    # fix_point_2
     params[:user_ids] ||= []
     user_ids = params[:user_ids].unshift(current_user.id).uniq
     user_ids.each do |id|
@@ -36,7 +35,6 @@ class ChannelsController < ApplicationController
   end
 
   def add_user
-    #fix_point_2
     search_id = params[:unique_id].sub(/^@/, '')
     @user = User.find_by(unique_id: search_id) 
 
