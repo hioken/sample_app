@@ -3,13 +3,13 @@
     // import "controllers/sandbox_controller";
   </script>
 <% end %>
-<div>
+<div id="testH1">
   <h1>Sandbox</h1>
 </div>
-<div data-controller="hello">
-  <input data-hello-target="name" type="text" placeholder="name" />
+<div data-controller="sandbox">
+  <input data-sandbox-target="name" type="text" placeholder="name" />
 
-  <button data-action="click->hello#greet">
+  <button data-action="click->sandbox#greet">
     挨拶する
   </button>
 </div>

@@ -13,4 +13,4 @@ export default class extends Controller {
   }
 }
 
-// alert('a')
+// console.log(document.getElementById('testH1'))

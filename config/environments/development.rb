@@ -78,7 +78,7 @@ Rails.application.configure do
   config.hosts.clear
 
   config.assets.debug = true
-  config.assets.digest = false
+  config.assets.digest = true
   config.assets.compile = true
 
 end
