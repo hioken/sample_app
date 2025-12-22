@@ -12,10 +12,11 @@
     <%= javascript_importmap_tags %>
     <%= yield :head %>
     <script type="module">
-      import "channels/notification_channel";
+      // import "channels/notification_channel";
     </script>
   </head>
   <body>
+    <!-- ここdmページなら消さなきゃダメじゃね -->
     <div id="notification-container" class="notification-container" data-controller="message-notification">
       <template data-message-notification-target="template">
         <div class="notification">
@@ -25,7 +26,7 @@
               <span class="notification-message"></span>
             </div>
           </a>
-          <button class="notification-close" data-action="click->massage-notification#close">✖</button>
+          <button class="notification-close" data-action="click->message-notification#close">✖</button>
         </div>
       </template>
     </div>
