@@ -2,7 +2,6 @@ import { Controller } from "@hotwired/stimulus"
 import consumer from "channels/consumer"
 
 // const notificationTemplate = document.getElementById("notification-template");
-const notificationContainer = document.getElementById("notification-container");
 // const sessionStorageKey = 'notifications';
 
 
@@ -48,7 +47,8 @@ export default class extends Controller {
     notificationElement.querySelector(".notification-message").textContent = data.message;
     notificationElement.querySelector(".notification-link").href = `channels/${data.channel_id}`;
 
-    notificationContainer.appendChild(notificationElement);
+    // notificationContainer.appendChild(notificationElement);
+    this.element.appendChild(notificationElement);
   }
 
   close(event) {
