@@ -16,19 +16,7 @@
     </script>
   </head>
   <body>
-    <!-- ここdmページなら消さなきゃダメじゃね -->
-    <div class="notification-container" data-controller="message-notification">
-      <template data-message-notification-target="template">
-        <div class="notification">
-          <a class="notification-link">
-            <div class="notification-content">
-              <span class="notification-sender"></span>
-              <span class="notification-message"></span>
-            </div>
-          </a>
-          <button class="notification-close" data-action="click->message-notification#close">✖</button>
-        </div>
-      </template>
+    <div id="notification-container" class="notification-container" data-controller="message-notification">
     </div>
 
 

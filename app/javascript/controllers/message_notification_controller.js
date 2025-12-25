@@ -18,15 +18,15 @@ export default class extends Controller {
 
     this.channel = consumer.subscriptions.create( "NotificationChannel", {
       received: (data) => {
-        this.notification(data);
-        const messageBox = document.getElementById(`channel-${data.channel_id}-message-box`)
-        if (messageBox) {
-          messageBox.querySelector('.unread-mark').classList.toggle('unread', true);
-          messageBox.querySelector('.channel-message').textContent = data.message;
-          console.log(messageBox);
-          const parent = document.getElementById('channels-container');
-          parent.insertBefore(messageBox.closest('a'), parent.firstChild);
-        }
+        // this.notification(data);
+        // const messageBox = document.getElementById(`channel-${data.channel_id}-message-box`)
+        // if (messageBox) {
+        //   messageBox.querySelector('.unread-mark').classList.toggle('unread', true);
+        //   messageBox.querySelector('.channel-message').textContent = data.message;
+        //   console.log(messageBox);
+        //   const parent = document.getElementById('channels-container');
+        //   parent.insertBefore(messageBox.closest('a'), parent.firstChild);
+        // }
       }
     });
   }
