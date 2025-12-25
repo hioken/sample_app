@@ -16,8 +16,8 @@ export default class extends Controller {
     console.log('connect message_notification')
     // this.loadNotificationsFromSession();
 
-    this.channel = consumer.subscriptions.create( "NotificationChannel", {
-      received: (data) => {
+    // this.channel = consumer.subscriptions.create( "NotificationChannel", {
+    //   received: (data) => {
         // this.notification(data);
         // const messageBox = document.getElementById(`channel-${data.channel_id}-message-box`)
         // if (messageBox) {
@@ -27,8 +27,8 @@ export default class extends Controller {
         //   const parent = document.getElementById('channels-container');
         //   parent.insertBefore(messageBox.closest('a'), parent.firstChild);
         // }
-      }
-    });
+    //   }
+    // });
   }
 
   // loadNotificationsFromSession() {
