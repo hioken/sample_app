@@ -1,9 +1,10 @@
-<div class="notification" data-channel-id="<%= channel_id %>">
+<div class="notification" data-notification-target="item" data-channel="<%= channel_id %>" data-message="<%= message %>">
   <%= link_to channel_path(channel_id), class: "notification-link" do %>
     <div class="notification-content">
       <span class="notification-sender"><%= sender %></span>
       <span class="notification-message"><%= message %></span>
+      <span class="notification-time"><%= time %></span>
     </div>
   <% end %>
-  <button class="notification-close" data-action="click->message-notification#close">✖</button>
+  <button class="notification-close" data-action="click->notification#close">✖</button>
 </div>

@@ -77,7 +77,8 @@ class MessageShowChannel < ApplicationCable::Channel
           locals: { 
             sender: message.user.name, 
             message: truncate_message(message.content), 
-            channel_id: params[:channel_id] 
+            time: message.created_at, 
+            channel_id: params[:channel_id]
           }
         )
       end

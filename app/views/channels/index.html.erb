@@ -39,20 +39,22 @@
     <% end %>
 
     <!-- チャンネル一覧 -->
-    <div id="channels-container" class="channel-list">
+    <div id="channels-container" class="channel-list" data-controller="conversation-index" data-action="app:notification@window->conversation-index#sortNewConversation">
       <% @channels.each do |cu| %>
         <% channel = cu.channel %>
-        <%= link_to channel_path(channel), class: 'channel-card' do %>
-          <div class="channel-content">
-            <div id="channel-<%= cu.channel_id %>-message-box" class="channel-message">
-              <span class="unread-mark <%= 'unread' if channel.latest_message.id > cu.last_read_message_id %>"></span>
-              <span class="channel-message"><%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
+        <div id="channel-<%= cu.channel_id %>" class="channel-card" data-conversation-index-target="item">
+          <%= link_to channel_path(channel) do %>
+            <div class="channel-content">
+              <div class="channel-message-li">
+                <span class="unread-mark <%= 'unread' if channel.latest_message.id > cu.last_read_message_id %>"></span>
+                <span class="channel-message"><%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
+              </div>
+              <div class="channel-timestamp">
+                <%= channel.last_message_at %>
+              </div>
             </div>
-            <div class="channel-timestamp">
-              <%= "latest: #{channel.latest_message.id}, last_read: #{cu.last_read_message_id}" %>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>
