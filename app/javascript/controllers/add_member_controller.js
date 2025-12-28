@@ -3,7 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 let timerId;
 
 export default class extends Controller {
-  static targets = ["input"];
+  static targets = ["input", "suggest"];
 
   connect() {
     console.log("-- connected addMemberController --");
@@ -15,7 +15,13 @@ export default class extends Controller {
     console.log(input)
     clearTimeout(timerId);
     if (input.value !== '' && input.value !== '@') {
-      timerId = setTimeout(() => this.getSuggest(input.value), 498);
+      timerId = setTimeout(() => {
+        this.getSuggest(input.value);
+      }, 498);
+    } else {
+      this.suggestTarget.replaceChildren();
+      console.log("==============")
+      console.log(this.suggestTarget);
     }
   }
 
@@ -27,14 +33,11 @@ export default class extends Controller {
   async getSuggest(word) {
     try {
       console.log('-- suggest request --');
-      console.log(`word!!!!!!: ${word}`)
       const res = await fetch(`/suggest/${word}`, {method: 'GET'});
-      console.log(res);
       // const data = await res.json();
       // console.log(data);
       // this.showSuggest(data);
       const html = await res.text();
-      console.log(html);
       Turbo.renderStreamMessage(html);
     } catch(err) {
       console.error('サジェストエラー', err);

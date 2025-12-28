@@ -16,19 +16,17 @@
     <div data-controller="add-member">
       <!-- ユーザー追加エリア -->
       <%= render 'add_member_form', undefind_user: nil %>
-      <div class="user-controls">
-        <div class="current-user">
-          <p><%= current_user.name_with_id %></p>
+      <%= form_with url: channels_path, method: :post, data: { turbo: "false" } do |f| %>
+        <div class="user-controls">
+          <div class="current-user">
+            <p><%= current_user.name_with_id %></p>
+          </div>
+          <div id="members" class="added-users">
+          </div>
         </div>
-        <div id="members" class="added-users">
-        </div>
-      </div>
 
       <!-- DM作成ボタン -->
-      <%= form_with url: channels_path, method: :post, data: { turbo: "false" } do |f| %>
         <%= render 'shared/error_messages', object: @channel if @channel %>
-        <div id="members-params" class="d-none members">
-        </div>
         <div class="create-dm">
           <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>
         </div>
@@ -43,11 +41,11 @@
           <%= link_to channel_path(channel) do %>
             <div class="channel-content">
               <div class="channel-message-li">
-                <span class="unread-mark <%= 'unread' if channel.latest_message.id > cu.last_read_message_id %>"></span>
+                <span class="unread-mark <%= 'unread' if channel.latest_message && channel.latest_message.id > cu.last_read_message_id %>"></span>
                 <span class="channel-message"><%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
               </div>
               <div class="channel-timestamp">
-                <%= channel.last_message_at %>
+                <%= channel.last_message_at if channel.latest_message %>
               </div>
             </div>
           <% end %>

@@ -43,10 +43,7 @@ class ChannelsController < ApplicationController
         format.turbo_stream do
           render turbo_stream: [
             turbo_stream.append(
-              'members', partial: 'member', locals: {user: @user}
-            ),
-            turbo_stream.append(
-              'members-params', partial: 'member_hidden_field', locals: {value: @user.id}
+              'members', partial: 'add_member_item', locals: {user: @user}
             ),
             turbo_stream.replace(
               'add-member-form', partial: 'add_member_form', locals: { undefind_user: nil }
