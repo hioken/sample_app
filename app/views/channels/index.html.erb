@@ -1,9 +1,4 @@
 <% provide(:title, 'DM一覧') %>
-<% content_for :head do %>
-  <script type="module">
-    import "channels/message_index_channel";
-  </script>
-<% end %>
 
 <div class="row">
   <aside class="col-md-4">
@@ -18,25 +13,27 @@
   <div class="col-md-8">
     <h2>DM一覧</h2>
 
-    <!-- ユーザー追加エリア -->
-    <%= render 'add_member_form', undefind_user: nil %>
-    <div class="user-controls">
-      <div class="current-user">
-        <p><%= current_user.name_with_id %></p>
+    <div data-controller="add-member">
+      <!-- ユーザー追加エリア -->
+      <%= render 'add_member_form', undefind_user: nil %>
+      <div class="user-controls">
+        <div class="current-user">
+          <p><%= current_user.name_with_id %></p>
+        </div>
+        <div id="members" class="added-users">
+        </div>
       </div>
-      <div id="members" class="added-users">
-      </div>
-    </div>
 
-    <!-- DM作成ボタン -->
-    <%= form_with url: channels_path, method: :post, data: { turbo: "false" } do |f| %>
-      <%= render 'shared/error_messages', object: @channel if @channel %>
-      <div id="members-params" class="d-none members">
-      </div>
-      <div class="create-dm">
-        <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>
-      </div>
-    <% end %>
+      <!-- DM作成ボタン -->
+      <%= form_with url: channels_path, method: :post, data: { turbo: "false" } do |f| %>
+        <%= render 'shared/error_messages', object: @channel if @channel %>
+        <div id="members-params" class="d-none members">
+        </div>
+        <div class="create-dm">
+          <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>
+        </div>
+      <% end %>
+    </div>
 
     <!-- チャンネル一覧 -->
     <div id="channels-container" class="channel-list" data-controller="conversation-index" data-action="app:notification@window->conversation-index#sortNewConversation">
