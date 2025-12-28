@@ -4,7 +4,7 @@ export default class extends Controller {
   static targets = ["item"];
 
   connect() {
-    console.log('connect notification')
+    console.log('-- connect notification --')
     // this.loadNotificationsFromSession();
   }
 
@@ -25,7 +25,7 @@ export default class extends Controller {
   }
 
   close(event) {
-    console.log('close')
+    console.log('-- close --')
     event.stopPropagation();
     event.preventDefault();
     event.target.closest(".notification").remove();

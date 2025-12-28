@@ -20,8 +20,6 @@ export default class extends Controller {
       }, 498);
     } else {
       this.suggestTarget.replaceChildren();
-      console.log("==============")
-      console.log(this.suggestTarget);
     }
   }
 
