@@ -8,8 +8,17 @@
 </div>
 <div data-controller="sandbox">
   <input data-sandbox-target="name" type="text" placeholder="name" />
+  <template data-sandbox-target="template">
+    <div data-sandbox-target="box">
+      test-div
+    </div>
+  </template>
 
   <button data-action="click->sandbox#greet">
     挨拶する
+  </button>
+
+  <button data-action="click->sandbox#templateComfirm">
+    template確認
   </button>
 </div>

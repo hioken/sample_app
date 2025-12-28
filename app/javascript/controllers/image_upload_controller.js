@@ -1,7 +1,13 @@
-// 巨大画像のアップロードを防止する
-document.addEventListener("turbo:load", function() {
-  document.addEventListener("change", function(event) {
-    let image_upload = document.querySelector('#micropost_image');
+import { Controller } from "@hotwired/stimulus"
+
+export default class extends Controller {
+  connect() {
+    console.log("-- connected imageUploadController --");
+  }
+
+  valid(event) {
+    console.log("-- valid --");
+    const image_upload = event.target
     if (image_upload && image_upload.files.length > 0) { 
       const size_in_megabytes = image_upload.files[0].size/1024/1024;
       if (size_in_megabytes > 5) {
@@ -9,5 +15,5 @@ document.addEventListener("turbo:load", function() {
         image_upload.value = "";
       }
     }
-  });
-});
+  }
+}

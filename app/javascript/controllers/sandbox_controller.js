@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="sandbox"
 export default class extends Controller {
-  static targets = ["name"];
+  static targets = ["name", "template", "box"];
 
   connect() {
     console.log("helloコントローラが接続されました");
@@ -10,6 +10,13 @@ export default class extends Controller {
 
   greet() {
     alert(`こんにちは、${this.nameTarget.value} さん`);
+  }
+
+  templateComfirm() {
+    console.log(this.templateTarget)
+    let flag = this.templateTarget.content.cloneNode(true)
+    // console.log(this.templateTarget.content.cloneNode(true))
+    this.element.append(flag);
   }
 }
 

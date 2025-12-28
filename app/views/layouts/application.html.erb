@@ -12,24 +12,14 @@
     <%= javascript_importmap_tags %>
     <%= yield :head %>
     <script type="module">
-      import "channels/notification_channel";
+      // import "channels/notification_channel";
     </script>
   </head>
   <body>
-    <template id="notification-template">
-      <div class="notification">
-        <a class="notification-link">
-          <div class="notification-content">
-            <span class="notification-sender"></span>
-            <span class="notification-message"></span>
-          </div>
-        </a>
-        <button class="notification-close">✖</button>
-      </div>
-    </template>
-    <div id="notification-container" class="notification-container"></div>
-
-
+    <% if logged_in? %>
+      <%= turbo_stream_from "notification_#{current_user.id}" %>
+      <div id="notification-container" class="notification-container" data-controller="notification"></div>
+    <% end %>
     <%= render 'layouts/header' %>
     <div class="container">
       <% flash.each do |message_type, message| %>

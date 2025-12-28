@@ -59,14 +59,28 @@ class MessageShowChannel < ApplicationCable::Channel
   private
 
   def notify(message)
+      p "!!!!!!!!!"
+      p "notify!!!!!!!!!!!"
     last_read_message_ids = $redis_readed.hgetall(last_read_message_ids_key(params[:channel_id]))
     last_read_message_ids.each do |user_id, is_joined|
       if is_joined != "0"
-        ActionCable.server.broadcast("notification_#{user_id}", {
-          message: truncate_message(message.content),
-          user_name: message.user.name,
-          channel_id: params[:channel_id]
-        })
+        # ActionCable.server.broadcast("notification_#{user_id}", {
+        #   message: truncate_message(message.content),
+        #   user_name: message.user.name,
+        #   channel_id: params[:channel_id]
+        # })
+        p "notification_#{user_id}"
+        Turbo::StreamsChannel.broadcast_prepend_to(
+          "notification_#{user_id}",
+          target: "notification-container",
+          partial: "messages/notification",
+          locals: { 
+            sender: message.user.name, 
+            message: truncate_message(message.content), 
+            time: message.created_at, 
+            channel_id: params[:channel_id]
+          }
+        )
       end
     end
   end

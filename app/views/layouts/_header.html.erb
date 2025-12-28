@@ -1,22 +1,20 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="container">
     <%= link_to "sample app", root_path, id: "logo" %>
-    <nav>
-      <div class="navbar-header">
-        <button id="hamburger" type="button" class="navbar-toggle collapsed">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
+    <nav data-controller="menu">
+      <button id="hamburger" type="button" class="navbar-toggle collapsed" data-action="click->menu#toggleMenu" data-toggle-class="collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
       <ul id="navbar-menu"
           class="nav navbar-nav navbar-right collapse navbar-collapse">
         <li><%= link_to "Home", root_path %></li>
         <li><%= link_to "Help", help_path %></li>
         <% if logged_in? %>
           <li class="dropdown">
-            <a href="#" id="user" class="dropdown-toggle">
+            <a href="#" id="user" class="dropdown-toggle" data-action="click->menu#toggleMenu" data-toggle-class="active">
               UserMenu <b class="caret"></b>
             </a>
             <ul id="dropdown-menu-user" class="dropdown-menu">
@@ -27,7 +25,7 @@
             </ul>
           </li>
           <li class="dropdown">
-            <a href="#" id="account" class="dropdown-toggle">
+            <a href="#" id="account" class="dropdown-toggle" data-action="click->menu#toggleMenu" data-toggle-class="active">
               Account <b class="caret"></b>
             </a>
             <ul id="dropdown-menu-account" class="dropdown-menu">

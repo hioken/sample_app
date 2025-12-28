@@ -1,9 +1,4 @@
 <% provide(:title, 'DM一覧') %>
-<% content_for :head do %>
-  <script type="module">
-    import "channels/message_index_channel";
-  </script>
-<% end %>
 
 <div class="row">
   <aside class="col-md-4">
@@ -18,41 +13,43 @@
   <div class="col-md-8">
     <h2>DM一覧</h2>
 
-    <!-- ユーザー追加エリア -->
-    <%= render 'add_member_form', undefind_user: nil %>
-    <div class="user-controls">
-      <div class="current-user">
-        <p><%= current_user.name_with_id %></p>
-      </div>
-      <div id="members" class="added-users">
-      </div>
+    <div data-controller="add-member">
+      <!-- ユーザー追加エリア -->
+      <%= render 'add_member_form', undefind_user: nil %>
+      <%= form_with url: channels_path, method: :post, data: { turbo: "false" } do |f| %>
+        <div class="user-controls">
+          <div class="current-user">
+            <p><%= current_user.name_with_id %></p>
+          </div>
+          <div id="members" class="added-users">
+          </div>
+        </div>
+
+      <!-- DM作成ボタン -->
+        <%= render 'shared/error_messages', object: @channel if @channel %>
+        <div class="create-dm">
+          <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>
+        </div>
+      <% end %>
     </div>
 
-    <!-- DM作成ボタン -->
-    <%= form_with url: channels_path, method: :post, data: { turbo: "false" } do |f| %>
-      <%= render 'shared/error_messages', object: @channel if @channel %>
-      <div id="members-params" class="d-none members">
-      </div>
-      <div class="create-dm">
-        <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>
-      </div>
-    <% end %>
-
     <!-- チャンネル一覧 -->
-    <div id="channels-container" class="channel-list">
+    <div id="channels-container" class="channel-list" data-controller="conversation-index" data-action="app:notification@window->conversation-index#sortNewConversation">
       <% @channels.each do |cu| %>
         <% channel = cu.channel %>
-        <%= link_to channel_path(channel), class: 'channel-card' do %>
-          <div class="channel-content">
-            <div id="channel-<%= cu.channel_id %>-message-box" class="channel-message">
-              <span class="unread-mark <%= 'unread' if channel.latest_message.id > cu.last_read_message_id %>"></span>
-              <span class="channel-message"><%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
+        <div id="channel-<%= cu.channel_id %>" class="channel-card" data-conversation-index-target="item">
+          <%= link_to channel_path(channel) do %>
+            <div class="channel-content">
+              <div class="channel-message-li">
+                <span class="unread-mark <%= 'unread' if channel.latest_message && channel.latest_message.id > cu.last_read_message_id %>"></span>
+                <span class="channel-message"><%= channel.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
+              </div>
+              <div class="channel-timestamp">
+                <%= channel.last_message_at if channel.latest_message %>
+              </div>
             </div>
-            <div class="channel-timestamp">
-              <%= "latest: #{channel.latest_message.id}, last_read: #{cu.last_read_message_id}" %>
-            </div>
-          </div>
-        <% end %>
+          <% end %>
+        </div>
       <% end %>
     </div>
   </div>

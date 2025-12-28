@@ -1,0 +1,6 @@
+<% suggest.each do |uid, name| %>
+  <div class="suggest-item" data-action="click->add-member#clickSuggest" data-uid="<%= uid %>">
+    <span class="suggest-username"><%= name %></span>
+    <span class="suggest-uid"><%= uid %></span>
+  </div>
+<% end %>
