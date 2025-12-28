@@ -1,8 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["name", "template", "box"];
-
   connect() {
     console.log("-- connected menuController --");
   }
