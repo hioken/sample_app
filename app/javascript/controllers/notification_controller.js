@@ -13,6 +13,7 @@ export default class extends Controller {
   //   notifications.forEach(sessionItem => { notification(sessionItem) });
   // }
 
+  // DMルーム一覧画面へのイベント
   itemTargetConnected(elem) {
     const ev = new CustomEvent("app:notification", {
       detail: {
