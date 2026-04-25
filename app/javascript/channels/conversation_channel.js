@@ -43,7 +43,7 @@ if (draft) {
 }
 
 const conversationChannel = consumer.subscriptions.create(
-  {conversation: "ConversationChannel", conversation_id: conversationId },
+  {channel: "ConversationChannel", conversation_id: conversationId },
   {
     handlers: {
       1: 'handleConnected',

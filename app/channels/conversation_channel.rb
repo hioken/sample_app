@@ -70,7 +70,7 @@ class ConversationChannel < ApplicationCable::Channel
         #   conversation_id: params[:conversation_id]
         # })
         p "notification_#{user_id}"
-        Turbo::StreamsConversation.broadcast_prepend_to(
+        Turbo::StreamsChannel.broadcast_prepend_to(
           "notification_#{user_id}",
           target: "notification-container",
           partial: "messages/notification",
