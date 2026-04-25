@@ -45,7 +45,7 @@ class User < ApplicationRecord
   end
 
   def active_channels
-    channel_users.includes(channel: :latest_message).where(channel_users: { is_left: false })
+    channel_users.includes(conversation: :latest_message).where(channel_users: { is_left: false })
   end
 
   # 永続的セッションのためにユーザーをデータベースに記憶する

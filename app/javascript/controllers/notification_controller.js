@@ -17,7 +17,7 @@ export default class extends Controller {
   itemTargetConnected(elem) {
     const ev = new CustomEvent("app:notification", {
       detail: {
-        channel: elem.dataset.channel,
+        conversation: elem.dataset.channel,
         message: elem.dataset.message
       }
     });

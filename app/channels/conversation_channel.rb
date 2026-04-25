@@ -90,11 +90,11 @@ class MessageShowChannel < ApplicationCable::Channel
   end
 
   def last_message_id_key(channel_id)
-    "channel:#{channel_id}:last_message_id"
+    "conversation:#{channel_id}:last_message_id"
   end
 
   def last_read_message_ids_key(channel_id)
-    "channel:#{channel_id}:last_read_message_ids"
+    "conversation:#{channel_id}:last_read_message_ids"
   end
 
   def truncate_message(text, length = 40)
