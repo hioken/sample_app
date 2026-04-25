@@ -1,6 +1,6 @@
 # redisのリセット
 $redis_readed.flushdb
-$redis_suggest.flushdb
+$redis_suggest_index.flushdb
 
 # メインのサンプルユーザーを1人作成する
 User.create!(name: 'Example User',

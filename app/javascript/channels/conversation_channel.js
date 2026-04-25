@@ -1,4 +1,4 @@
-import consumer from "conversations/consumer"
+import consumer from "channels/consumer"
 import { conversationId } from "./conversation_id";
 
 const messageInput = document.getElementById("message-input");
