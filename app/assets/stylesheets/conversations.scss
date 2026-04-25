@@ -1,9 +1,9 @@
 /* DM一覧ページ */
-.channel-list {
+.conversation-list {
   margin-top: 20px;
 }
 
-.channel-card {
+.conversation-card {
   display: block;
   margin-bottom: 10px;
   padding: 15px;
@@ -17,7 +17,7 @@
   }
 }
 
-.channel-content {
+.conversation-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -36,13 +36,13 @@
 }
 
 
-.channel-message-li {
+.conversation-message-li {
   color: #6c757d;
   font-size: 1em;
   text-decoration: none;
 }
 
-.channel-timestamp {
+.conversation-timestamp {
   color: #aaa;
   font-size: 0.9em;
   text-align: right;
@@ -126,8 +126,8 @@
   }
 }
 
-.channel-list {
-  .channel-card {
+.conversation-list {
+  .conversation-card {
     display: block;
     padding: 10px;
     margin-bottom: 10px;
@@ -140,17 +140,17 @@
       background-color: #f8f9fa;
     }
 
-    .channel-content {
+    .conversation-content {
       display: flex;
       justify-content: space-between;
       align-items: center;
 
-      .channel-message {
+      .conversation-message {
         font-size: 1rem;
         color: #6c757d;
       }
 
-      .channel-timestamp {
+      .conversation-timestamp {
         font-size: 0.9rem;
         color: #adb5bd;
       }

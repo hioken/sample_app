@@ -1,0 +1,56 @@
+<% provide(:title, 'DM一覧') %>
+
+<div class="row">
+  <aside class="col-md-4">
+    <section>
+      <h1>Direct Messages</h1>
+    </section>
+    <section class="stats">
+      <%= render 'shared/stats' %>
+    </section>
+  </aside>
+
+  <div class="col-md-8">
+    <h2>DM一覧</h2>
+
+    <div data-controller="add-member">
+      <!-- ユーザー追加エリア -->
+      <%= render 'add_member_form', undefind_user: nil %>
+      <%= form_with url: conversations_path, method: :post, data: { turbo: "false" } do |f| %>
+        <div class="user-controls">
+          <div class="current-user">
+            <p><%= current_user.name_with_id %></p>
+          </div>
+          <div id="members" class="added-users">
+          </div>
+        </div>
+
+      <!-- DM作成ボタン -->
+        <%= render 'shared/error_messages', object: @conversation if @conversation %>
+        <div class="create-dm">
+          <%= f.submit '新しいDMを作成する', class: "create-dm-button" %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- チャンネル一覧 -->
+    <div id="conversations-container" class="conversation-list" data-controller="conversation-index" data-action="app:notification@window->conversation-index#sortNewConversation">
+      <% @conversations.each do |cu| %>
+        <% conversation = cu.conversation %>
+        <div id="conversation-<%= cu.conversation_id %>" class="conversation-card" data-conversation-index-target="item">
+          <%= link_to conversation_path(conversation) do %>
+            <div class="conversation-content">
+              <div class="conversation-message-li">
+                <span class="unread-mark <%= 'unread' if conversation.latest_message && conversation.latest_message.id > cu.last_read_message_id %>"></span>
+                <span class="conversation-message"><%= conversation.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
+              </div>
+              <div class="conversation-timestamp">
+                <%= conversation.last_message_at if conversation.latest_message %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -1,28 +1,28 @@
 require "test_helper"
 
-class ChannelsControllerTest < ActionDispatch::IntegrationTest
+class ConversationsControllerTest < ActionDispatch::IntegrationTest
   def setup
-    @channel = channels(:channel_1)
+    @conversation = conversations(:conversation_1)
     @user = users(:michael)
     @non_member = users(:user_1)
     log_in_as(@user)
   end
 
   test "should get index" do
-    get channels_path
+    get conversations_path
     assert_response :success
   end
 
   test "should get show when is member" do
     log_in_as(@user)
-    get channel_path(@channel)
+    get conversation_path(@conversation)
     assert_response :success
   end
 
   test 'should redirect show when is not member' do
     log_in_as(@non_member)
-    get channel_path(@channel)
-    assert_redirected_to channels_url
+    get conversation_path(@conversation)
+    assert_redirected_to conversations_url
   end
 
 end

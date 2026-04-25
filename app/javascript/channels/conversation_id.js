@@ -1,0 +1,1 @@
+export const conversationId = window.location.pathname.match(/\/conversations\/(\d+)/)?.[1];

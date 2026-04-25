@@ -1,0 +1,32 @@
+conversation_user_1:
+  conversation: conversation_1
+  user: michael
+
+conversation_user_2:
+  conversation: conversation_1
+  user: archer
+
+conversation_user_3:
+  conversation: conversation_2
+  user: michael
+
+conversation_user_4:
+  conversation: conversation_2
+  user: archer
+
+conversation_user_5:
+  conversation: conversation_2
+  user: malory
+
+conversation_user_6:
+  conversation: conversation_3
+  user: lana
+
+conversation_user_7:
+  conversation: conversation_3
+  user: juna
+
+conversation_user_8:
+  conversation: conversation_3
+  user: malory
+  is_left: true

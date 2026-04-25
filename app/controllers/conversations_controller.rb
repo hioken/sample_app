@@ -1,13 +1,13 @@
-class ChannelsController < ApplicationController
+class ConversationsController < ApplicationController
   before_action :logged_in_user, only: %i[index show]
   before_action :authenticate_dm_member, only: :show
 
   def index
-    @channels = current_user.active_channels.order(last_message_at: :asc)
+    @conversations = current_user.active_conversations.order(last_message_at: :asc)
   end
 
   def show
-    @messages = @channel.messages.includes(:user)
+    @messages = @conversation.messages.includes(:user)
     cookies.encrypted[:sending_user_id] = current_user.id
   end
 
@@ -17,19 +17,19 @@ class ChannelsController < ApplicationController
     user_ids.each do |id|
       user = User.find_by(id: id)
       unless user
-        @channels = current_user.active_channels.includes(:latest_message)
-        @channel = Channel.new; @channel.errors.add(:channel_users, '無効なユーザーデータが送信されました')
+        @conversations = current_user.active_conversations.includes(:latest_message)
+        @conversation = Conversation.new; @conversation.errors.add(:conversation_users, '無効なユーザーデータが送信されました')
         render :index
         return
       end
     end
 
-    @channel = Channel.make_channel(user_ids)
+    @conversation = Conversation.make_conversation(user_ids)
 
-    if @channel.errors.blank?
-      redirect_to @channel
+    if @conversation.errors.blank?
+      redirect_to @conversation
     else
-      @channels = current_user.active_channels.includes(:latest_message)
+      @conversations = current_user.active_conversations.includes(:latest_message)
       render :index
     end
   end
@@ -61,19 +61,19 @@ class ChannelsController < ApplicationController
   end
 
   def leave
-    channel_user = current_user.channel_users.find_by(channel_id: params[:id])
-    channel_user.update(is_left: true)
+    conversation_user = current_user.conversation_users.find_by(conversation_id: params[:id])
+    conversation_user.update(is_left: true)
     cookies.delete(:sending_user_id)
     flash[:success] = ''
-    redirect_to channels_path
+    redirect_to conversations_path
   end
 
   private
 
   def authenticate_dm_member
-    @channel = Channel.find(params[:id])
-    unless @channel.is_member?(current_user.id)
-      redirect_to channels_path
+    @conversation = Conversation.find(params[:id])
+    unless @conversation.is_member?(current_user.id)
+      redirect_to conversations_path
     end
   end
 end

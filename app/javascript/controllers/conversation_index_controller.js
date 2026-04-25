@@ -9,15 +9,15 @@ export default class extends Controller {
 
   sortNewConversation(event) {
     console.log("-- sortNewConversation --")
-    const { channel, message } = event.detail
-    const boxId = `channel-${channel}`
+    const { conversation, message } = event.detail
+    const boxId = `conversation-${conversation}`
     const messageBox = this.itemTargets.find((el) => el.id === boxId)
     if (!messageBox) {
       console.error("通知来たのにチャンネル一覧に対象がナッシング")
       return null
     }
     messageBox.querySelector('.unread-mark').classList.toggle('unread', true);
-    messageBox.querySelector('.channel-message').textContent = message;
+    messageBox.querySelector('.conversation-message').textContent = message;
     console.log(messageBox);
     this.element.prepend(messageBox);
   }

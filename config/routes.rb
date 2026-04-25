@@ -20,9 +20,9 @@ Rails.application.routes.draw do
   resources :microposts, only: %i[create destroy]
   get '/microposts', to: 'static_pages#home'
   resources :relationships, only: %i[create destroy]
-  resources :channels, only: %i[index show create]
-  post '/add_user', to: 'channels#add_user', as: :add_user
-  patch '/leave/:id', to: 'channels#leave', as: :leave
+  resources :conversations, only: %i[index show create]
+  post '/add_user', to: 'conversations#add_user', as: :add_user
+  patch '/leave/:id', to: 'conversations#leave', as: :leave
   get '/suggest/:uid_or_name', to: 'users#suggest'
 
   get '/sandbox', to: 'sandbox#sandbox'
