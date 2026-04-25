@@ -1,8 +1,8 @@
-channel_1:
+conversation_1:
   last_message_at: "2023-12-10 12:00:00"
 
-channel_2:
+conversation_2:
   last_message_at: "2023-12-08 13:00:00"
 
-channel_3:
+conversation_3:
   last_message_at: "2023-12-06 12:00:00"

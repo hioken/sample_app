@@ -4,15 +4,15 @@ class MessageTest < ActiveSupport::TestCase
 
   def setup
     @user = users(:michael)
-    @message = @user.messages.build(channel_id: channels(:channel_1).id, content: "Lorem ipsum")
+    @message = @user.messages.build(conversation_id: conversations(:conversation_1).id, content: "Lorem ipsum")
   end
 
   test 'should be valid' do
     assert @message.valid?
   end
 
-  test 'should require a channel_id' do
-    @message.channel_id = nil
+  test 'should require a conversation_id' do
+    @message.conversation_id = nil
     assert_not @message.valid?
   end
 

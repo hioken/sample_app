@@ -1,1 +1,1 @@
-export const channelId = window.location.pathname.match(/\/channels\/(\d+)/)?.[1];
+export const conversationId = window.location.pathname.match(/\/conversations\/(\d+)/)?.[1];

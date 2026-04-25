@@ -1,9 +1,9 @@
-import consumer from "channels/consumer"
-import { channelId } from "./channel_id";
+import consumer from "conversations/consumer"
+import { conversationId } from "./conversation_id";
 
 const messageInput = document.getElementById("message-input");
 const sendButton = document.getElementById("send-button");
-const draft = sessionStorage.getItem(`${channelId}:draft`);
+const draft = sessionStorage.getItem(`${conversationId}:draft`);
 
 const scrollMessage = function () {
   const element = document.getElementById('messages')
@@ -14,12 +14,12 @@ const scrollMessage = function () {
   }
 }()
 
-function sendMessage(obj, dmChannel) {
+function sendMessage(obj, conversationChannel) {
   let message = obj.value.trim();
   if (message.length > 0) {
-    dmChannel.sending(message);
+    conversationChannel.sending(message);
     obj.value = "";
-    sessionStorage.removeItem(`${channelId}:draft`);
+    sessionStorage.removeItem(`${conversationId}:draft`);
   }
 }
 
@@ -37,13 +37,13 @@ function binarySearch(target, searchArray) {
 }
 
 console.log('draft!!!: ' + draft);
-console.log(sessionStorage.getItem(`${channelId}:draft`))
+console.log(sessionStorage.getItem(`${conversationId}:draft`))
 if (draft) {
   messageInput.value = draft
 }
 
-const dmChannel = consumer.subscriptions.create(
-  {channel: "MessageShowChannel", channel_id: channelId },
+const conversationChannel = consumer.subscriptions.create(
+  {conversation: "ConversationChannel", conversation_id: conversationId },
   {
     handlers: {
       1: 'handleConnected',
@@ -146,25 +146,25 @@ const dmChannel = consumer.subscriptions.create(
 );
 
 sendButton.addEventListener("click", () => {
-  sendMessage(messageInput, dmChannel);
+  sendMessage(messageInput, conversationChannel);
 });
 
 messageInput.addEventListener("keydown", function(e) {
   if (e.ctrlKey && e.key === "Enter") {
-    sendMessage(messageInput, dmChannel);
+    sendMessage(messageInput, conversationChannel);
   }
 });
 
 // window.addEventListener("beforeunload",() => {
-//   sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
+//   sessionStorage.setItem(`${conversationId}:draft`, messageInput.value);
 // });
 document.addEventListener("visibilitychange", () => {
-  // consumer.subscriptions.remove(dmChannel);
-  if (document.hidden) sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
+  // consumer.subscriptions.remove(conversationChannel);
+  if (document.hidden) sessionStorage.setItem(`${conversationId}:draft`, messageInput.value);
 });
 window.addEventListener("pagehide", () => {
-  // consumer.subscriptions.remove(dmChannel);
-  sessionStorage.setItem(`${channelId}:draft`, messageInput.value);
+  // consumer.subscriptions.remove(conversationChannel);
+  sessionStorage.setItem(`${conversationId}:draft`, messageInput.value);
 });
 
 document.getElementById('test-button').addEventListener("click",() => {
@@ -175,5 +175,5 @@ document.getElementById('test-button').addEventListener("click",() => {
   //     console.log(`client: ${element.clientHeight}`)
 
   // 接続遮断テスト
-  consumer.subscriptions.remove(dmChannel);
+  consumer.subscriptions.remove(conversationChannel);
 });

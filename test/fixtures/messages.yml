@@ -3,39 +3,39 @@ message_1:
   created_at: "2023-12-06 12:00:00"
   updated_at: "2023-12-06 12:00:00"
   user: michael
-  conversation: channel_1
+  conversation: conversation_1
 
 message_2:
   content: "User1のfirstメッセージ"
   created_at: "2023-12-06 12:00:00"
   updated_at: "2023-12-06 12:00:00"
   user: michael
-  conversation: channel_2
+  conversation: conversation_2
 
 message_3:
   content: "User3のfirstメッセージ"
   created_at: "2023-12-06 12:00:00"
   updated_at: "2023-12-06 12:00:00"
   user: lana
-  conversation: channel_3
+  conversation: conversation_3
 
 message_4:
   content: "User2のメッセージ"
   created_at: "2023-12-10 12:00:00"
   updated_at: "2023-12-10 12:00:00"
   user: archer
-  conversation: channel_1
+  conversation: conversation_1
 
 message_5:
   content: "User2のメッセージ"
   created_at: "2023-12-08 12:30:00"
   updated_at: "2023-12-08 12:30:00"
   user: archer
-  conversation: channel_2
+  conversation: conversation_2
 
 message_6:
   content: "User4のメッセージ"
   created_at: "2023-12-08 13:00:00"
   updated_at: "2023-12-08 13:00:00"
   user: malory
-  conversation: channel_2
+  conversation: conversation_2

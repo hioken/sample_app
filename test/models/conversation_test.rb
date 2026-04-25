@@ -1,49 +1,49 @@
 require "test_helper"
 
-class ChannelTest < ActiveSupport::TestCase
+class ConversationTest < ActiveSupport::TestCase
   def setup
-    @channel = Channel.new(last_message_at: Time.zone.now)
+    @conversation = Conversation.new(last_message_at: Time.zone.now)
   end
 
   test 'should be valid' do
-    assert @channel.valid?
+    assert @conversation.valid?
   end
 
   test 'should require a last_message_at' do
-    @channel.last_message_at = nil
-    assert_not @channel.valid?
+    @conversation.last_message_at = nil
+    assert_not @conversation.valid?
   end
 
-  test 'should create channel with channel_users' do
+  test 'should create conversation with conversation_users' do
     members = [:michael, :archer, :lana].map { |user| users(user) }
-    channel_users_count = ChannelUser.count
+    conversation_users_count = ConversationUser.count
     user_ids = members.map { |user| user.id }
-    channel = Channel.make_channel(user_ids)
-    assert channel.valid?
-    assert ChannelUser.count == channel_users_count + members.length
-    assert members.all? { |member| ChannelUser.find_by(channel_id: channel.id, user_id: member.id) }
+    conversation = Conversation.make_conversation(user_ids)
+    assert conversation.valid?
+    assert ConversationUser.count == conversation_users_count + members.length
+    assert members.all? { |member| ConversationUser.find_by(conversation_id: conversation.id, user_id: member.id) }
   end
 
   test 'should be invalid with only one member' do
-    assert_not Channel.make_channel([users(:michael).id]).valid?
+    assert_not Conversation.make_conversation([users(:michael).id]).valid?
   end
 
-  test 'should return existing channel' do
-    existing_channel = channels(:channel_1)
-    user_ids = existing_channel.users.map(&:id)
-    channel = Channel.make_channel(user_ids)
-    assert_equal existing_channel.id, channel.id
+  test 'should return existing conversation' do
+    existing_conversation = conversations(:conversation_1)
+    user_ids = existing_conversation.users.map(&:id)
+    conversation = Conversation.make_conversation(user_ids)
+    assert_equal existing_conversation.id, conversation.id
   end
 
   test 'should is_member? return true' do
-    channel = channels(:channel_1)  
-    user = channel.users.first
-    assert channel.is_member?(user.id)
+    conversation = conversations(:conversation_1)  
+    user = conversation.users.first
+    assert conversation.is_member?(user.id)
   end
 
   test 'should is_member? return false' do
-    channel = channels(:channel_1)  
-    user = channel.users.last
-    assert_not channel.is_member?(user.id + 1)
+    conversation = conversations(:conversation_1)  
+    user = conversation.users.last
+    assert_not conversation.is_member?(user.id + 1)
   end
 end

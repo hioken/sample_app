@@ -17,7 +17,7 @@ export default class extends Controller {
   itemTargetConnected(elem) {
     const ev = new CustomEvent("app:notification", {
       detail: {
-        conversation: elem.dataset.channel,
+        conversation: elem.dataset.conversation,
         message: elem.dataset.message
       }
     });
@@ -52,7 +52,7 @@ export default class extends Controller {
 //     sessionItem.push({
 //       user_name: childElement.dataset.user_name,
 //       message: childElement.dataset.message,
-//       channel_id: childElement.dataset.channelId
+//       conversation_id: childElement.dataset.conversationId
 //     });
 //   }
 //   sessionStorage.setItem(sessionStorageKey, JSON.stringify(sessionItem));

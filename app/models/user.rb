@@ -11,8 +11,8 @@ class User < ApplicationRecord
   has_many :following, through: :active_relationships,  source: :followed
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :messages, dependent: :destroy
-  has_many :channel_users, dependent: :destroy
-  has_many :channels, through: :channel_users
+  has_many :conversation_users, dependent: :destroy
+  has_many :conversations, through: :conversation_users
 
   before_save :downcase_email
   before_create :create_activation_digest
@@ -44,8 +44,8 @@ class User < ApplicationRecord
     is_deleted ? "※削除済みのUser @#{unique_id}" : "#{name} @#{unique_id}"
   end
 
-  def active_channels
-    channel_users.includes(conversation: :latest_message).where(channel_users: { is_left: false })
+  def active_conversations
+    conversation_users.includes(conversation: :latest_message).where(conversation_users: { is_left: false })
   end
 
   # 永続的セッションのためにユーザーをデータベースに記憶する

@@ -1,23 +1,23 @@
 require "test_helper"
 
-class ChannelUserTest < ActiveSupport::TestCase
+class ConversationUserTest < ActiveSupport::TestCase
 
   def setup
-    @channel_user = ChannelUser.new(channel_id: channels(:channel_1).id,
+    @conversation_user = ConversationUser.new(conversation_id: conversations(:conversation_1).id,
                                     user_id: users(:juna).id)
   end
 
   test 'should be valid' do
-    assert @channel_user.valid?
+    assert @conversation_user.valid?
   end
 
-  test 'should require a channel_id' do
-    @channel_user.channel_id = nil
-    assert_not @channel_user.valid?
+  test 'should require a conversation_id' do
+    @conversation_user.conversation_id = nil
+    assert_not @conversation_user.valid?
   end
 
   test 'should require a user_id' do
-    @channel_user.user_id = nil
-    assert_not @channel_user.valid?
+    @conversation_user.user_id = nil
+    assert_not @conversation_user.valid?
   end
 end

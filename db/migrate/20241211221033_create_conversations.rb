@@ -1,10 +1,10 @@
-class CreateChannels < ActiveRecord::Migration[7.0]
+class CreateConversations < ActiveRecord::Migration[7.0]
   def change
-    create_table :channels do |t|
+    create_table :conversations do |t|
       t.datetime :last_message_at, null: false
 
       t.timestamps
     end
-    add_index :channels, :last_message_at
+    add_index :conversations, :last_message_at
   end
 end
