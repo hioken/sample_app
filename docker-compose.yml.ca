@@ -1,0 +1,24 @@
+services:
+  app:
+    build: .
+    container_name: rails-app
+    entrypoint: ["/bin/sh", "-c", "update-ca-certificates && /home/environment/entrypoint.sh \"$@\"", "--"]
+    volumes:
+      - .:/home/environment
+      - ${MY_CA}:/usr/local/share/ca-certificates/x.crt
+    ports:
+      - "3000:3000"
+    stdin_open: true
+    tty: true
+    command: ["bash"]
+    environment:
+      RAILS_ENV: development
+      REDIS_URL: redis://redis-master:6379
+    depends_on:
+      - redis
+
+  redis:
+    container_name: redis-master
+    image: redis:latest
+    ports:
+      - "6379:6379"

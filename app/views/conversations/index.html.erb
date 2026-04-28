@@ -35,17 +35,16 @@
 
     <!-- チャンネル一覧 -->
     <div id="conversations-container" class="conversation-list" data-controller="conversation-index" data-action="app:notification@window->conversation-index#sortNewConversation">
-      <% @conversations.each do |cu| %>
-        <% conversation = cu.conversation %>
-        <div id="conversation-<%= cu.conversation_id %>" class="conversation-card" data-conversation-index-target="item">
+      <% @conversations.each do |conversation| %>
+        <div id="conversation-<%= conversation.id %>" class="conversation-card" data-conversation-index-target="item">
           <%= link_to conversation_path(conversation) do %>
             <div class="conversation-content">
               <div class="conversation-message-li">
-                <span class="unread-mark <%= 'unread' if conversation.latest_message && conversation.latest_message.id > cu.last_read_message_id %>"></span>
+                <span class="unread-mark <%= 'unread' if conversation.latest_message && conversation.latest_message.id > conversation.last_read_message_id %>"></span>
                 <span class="conversation-message"><%= conversation.latest_message&.content&.truncate(50) || '新しくダイレクトメッセージを始める' %></span>
               </div>
               <div class="conversation-timestamp">
-                <%= conversation.last_message_at if conversation.latest_message %>
+                <%= I18n.l(conversation.last_message_at, format: :short) if conversation.latest_message %>
               </div>
             </div>
           <% end %>

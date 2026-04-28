@@ -12,7 +12,9 @@ class User < ApplicationRecord
   has_many :followers, through: :passive_relationships, source: :follower
   has_many :messages, dependent: :destroy
   has_many :conversation_users, dependent: :destroy
+  has_many :active_conversation_users, -> { where(is_left: false) }, class_name: 'ConversationUser'
   has_many :conversations, through: :conversation_users
+  has_many :active_conversations, through: :active_conversation_users, source: :conversation
 
   before_save :downcase_email
   before_create :create_activation_digest
@@ -44,8 +46,10 @@ class User < ApplicationRecord
     is_deleted ? "※削除済みのUser @#{unique_id}" : "#{name} @#{unique_id}"
   end
 
-  def active_conversations
-    conversation_users.includes(conversation: :latest_message).where(conversation_users: { is_left: false })
+  def active_conversations_with_status
+    active_conversations
+      .select('conversations.*', 'conversation_users.last_read_message_id AS last_read_message_id')
+      .eager_load(:latest_message)
   end
 
   # 永続的セッションのためにユーザーをデータベースに記憶する

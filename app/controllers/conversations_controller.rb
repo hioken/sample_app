@@ -3,7 +3,7 @@ class ConversationsController < ApplicationController
   before_action :authenticate_dm_member, only: :show
 
   def index
-    @conversations = current_user.active_conversations.order(last_message_at: :asc)
+    @conversations = current_user.active_conversations_with_status
   end
 
   def show
@@ -14,10 +14,10 @@ class ConversationsController < ApplicationController
   def create
     params[:user_ids] ||= []
     user_ids = params[:user_ids].unshift(current_user.id).uniq
+    @conversations = current_user.active_conversations_with_status
     user_ids.each do |id|
       user = User.find_by(id: id)
       unless user
-        @conversations = current_user.active_conversations.includes(:latest_message)
         @conversation = Conversation.new; @conversation.errors.add(:conversation_users, '無効なユーザーデータが送信されました')
         render :index
         return
@@ -29,7 +29,6 @@ class ConversationsController < ApplicationController
     if @conversation.errors.blank?
       redirect_to @conversation
     else
-      @conversations = current_user.active_conversations.includes(:latest_message)
       render :index
     end
   end
