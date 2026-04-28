@@ -46,8 +46,10 @@ class User < ApplicationRecord
     is_deleted ? "※削除済みのUser @#{unique_id}" : "#{name} @#{unique_id}"
   end
 
-  def recent_conversations
-    active_conversations.eager_load(:latest_message).order('messages.created_at DESC')
+  def active_conversations_with_status
+    active_conversations
+      .select('conversations.*', 'conversation_users.last_read_message_id AS last_read_message_id')
+      .eager_load(:latest_message)
   end
 
   # 永続的セッションのためにユーザーをデータベースに記憶する
