@@ -36,7 +36,7 @@ function binarySearch(target, searchArray) {
   return searchArray.length - low;
 }
 
-function read_id() {
+function readId() {
   return messagesContainer.lastElementChild.dataset.messageId;
 }
 
@@ -73,10 +73,12 @@ const conversationChannel = consumer.subscriptions.create(
     },
 
     handleConnected(data) {
-      this.perform('read', {read_id: read_id()});
+      this.perform('read', {readId: readId()});
+      this.currentUserId = data.current_user_id;
 
       console.log('##### connected #####')
-      console.log(`read_id: ${read_id()}`)
+      console.log(`readId: ${readId()}`)
+      console.log(`currentUserId: ${this.currentUserId}`)
     },
 
     handleJoined(data) {

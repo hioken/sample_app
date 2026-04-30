@@ -15,11 +15,9 @@ class ConversationChannel < ApplicationCable::Channel
     else
       last_read_message_ids = last_read_message_ids.each { |k, v| last_read_message_ids[k] = v.to_i }
     end
-    $redis_readed.hset(last_read_message_ids_key(params[:conversation_id]), connection.current_user.id, 0)
-    last_read_message_ids.delete(connection.current_user.id.to_s)
     
     stream_from "conversation_#{params[:conversation_id]}"
-    transmit({event: EVENT[:connected], params: {current_user_id: connection.current_user.id, last_read_message_ids: last_read_message_ids}})
+    transmit({event: EVENT[:connected], params: {current_user_id: connection.current_user.id}})
     ActionCable.server.broadcast("conversation_#{params[:conversation_id]}", {event: EVENT[:joined], params: {user_id: connection.current_user.id}})
   end
 
@@ -38,6 +36,7 @@ class ConversationChannel < ApplicationCable::Channel
   end
 
   def read(data)
+    $redis_readed.hgetall(last_read_message_ids_key(params[:conversation_id]))
   end
 
   def receive(data)
@@ -98,6 +97,10 @@ class ConversationChannel < ApplicationCable::Channel
 
   def last_read_message_ids_key(conversation_id)
     "conversation:#{conversation_id}:last_read_message_ids"
+  end
+
+  def read_count_key(conversation_id)
+    "conversation:#{conversation_id}:read_count"
   end
 
   def truncate_message(text, length = 40)
