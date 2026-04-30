@@ -1,4 +1,4 @@
-<div class="message-box <%= 'self' if message.user_id == current_user.id %>">
+<div class="message-box <%= 'self' if message.user_id == current_user.id %>" data-message-id="<%= message.id %>">
   <% if message.user_id == current_user.id %>
     <span class="read-count" data-message-id="<%= message.id %>" data-read-count="0"></span>
   <% end %>

@@ -4,12 +4,12 @@ import { conversationId } from "./conversation_id";
 const messageInput = document.getElementById("message-input");
 const sendButton = document.getElementById("send-button");
 const draft = sessionStorage.getItem(`${conversationId}:draft`);
+const messagesContainer = document.getElementById('messages');
 
 const scrollMessage = function () {
-  const element = document.getElementById('messages')
   return () => {
-    if (element.scrollHeight - element.scrollTop <= element.clientHeight + 1000){
-      element.scrollTo({ top: element.scrollHeight, behavior: "smooth" })
+    if (messagesContainer.scrollHeight - messagesContainer.scrollTop <= messagesContainer.clientHeight + 1000){
+      messagesContainer.scrollTo({ top: messagesContainer.scrollHeight, behavior: "smooth" })
     }
   }
 }()
@@ -34,6 +34,10 @@ function binarySearch(target, searchArray) {
     }
   }
   return searchArray.length - low;
+}
+
+function read_id() {
+  return messagesContainer.lastElementChild.dataset.messageId;
 }
 
 console.log('draft!!!: ' + draft);
@@ -69,28 +73,10 @@ const conversationChannel = consumer.subscriptions.create(
     },
 
     handleConnected(data) {
-      this.currentUserId = data.current_user_id;
-      // delete data.last_read_message_ids[this.currentUserId]; 現在サーバー側でやる事にしている
-      this.lastReadMessageIds = data.last_read_message_ids;
-      for (const key of Object.keys(this.lastReadMessageIds)){
-        if (this.lastReadMessageIds[key] == 0) { this.activeUsersCount += 1 }
-      }
-
-      const lastReadMessageIdsArray = Object.values(this.lastReadMessageIds).sort((a, b) => a - b);
-
-      if (lastReadMessageIdsArray.length > 1) { this.isGroupChat = true }
-      document.querySelectorAll('.read-count').forEach((readCountElement) => {
-        const readCount = binarySearch(parseInt(readCountElement.dataset.messageId), lastReadMessageIdsArray) + this.activeUsersCount;
-        if (readCount > 0) {
-          readCountElement.textContent = this.isGroupChat ? `既読 ${readCount}` : '既読';
-        }
-        readCountElement.dataset.readCount = readCount;
-      });
+      this.perform('activate', {read_id: read_id()});
 
       console.log('##### connected #####')
-      console.log(this.lastReadMessageIds);
-      console.log(`currentUserId ${this.currentUserId}`);
-      console.log(`activeUsersCount ${this.activeUsersCount}`);
+      console.log(`read_id: ${read_id()}`)
     },
 
     handleJoined(data) {
@@ -122,10 +108,9 @@ const conversationChannel = consumer.subscriptions.create(
     },
 
     handleMessage(data) {
-      const messagesElement = document.getElementById('messages');
-      messagesElement.innerHTML += data.message_element;
+      messagesContainer.innerHTML += data.message_element;
 
-      const lastReadCountElement = messagesElement.lastElementChild.querySelector('.read-count');
+      const lastReadCountElement = messagesContainer.lastElementChild.querySelector('.read-count');
       if (lastReadCountElement && this.activeUsersCount > 0) {
         lastReadCountElement.dataset.readCount = this.activeUsersCount;
         lastReadCountElement.textContent = this.isGroupChat ? `既読 ${this.activeUsersCount}` : '既読';
@@ -133,7 +118,7 @@ const conversationChannel = consumer.subscriptions.create(
       scrollMessage();
 
       console.log('##### message #####');
-      console.log(messagesElement.lastElementChild.querySelector('.read-count'));
+      console.log(messagesContainer.lastElementChild.querySelector('.read-count'));
       console.log(this.lastReadMessageIds);
       console.log(`currentUserId ${this.currentUserId}`);
       console.log(`activeUsersCount ${this.activeUsersCount}`);
@@ -144,6 +129,7 @@ const conversationChannel = consumer.subscriptions.create(
     }
   }
 );
+
 
 sendButton.addEventListener("click", () => {
   sendMessage(messageInput, conversationChannel);
