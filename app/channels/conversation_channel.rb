@@ -37,7 +37,7 @@ class ConversationChannel < ApplicationCable::Channel
     $redis_readed.hset(last_read_message_ids_key(params[:conversation_id]), connection.current_user.id, last_message_id)
   end
 
-  def activate(data)
+  def read(data)
   end
 
   def receive(data)

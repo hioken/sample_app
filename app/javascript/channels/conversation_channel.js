@@ -73,7 +73,7 @@ const conversationChannel = consumer.subscriptions.create(
     },
 
     handleConnected(data) {
-      this.perform('activate', {read_id: read_id()});
+      this.perform('read', {read_id: read_id()});
 
       console.log('##### connected #####')
       console.log(`read_id: ${read_id()}`)
